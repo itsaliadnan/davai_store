@@ -16,12 +16,23 @@ class CartScreen extends ConsumerStatefulWidget {
 
 class _CartScreenState extends ConsumerState<CartScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() {
+      ref.read(cartProvider.notifier).addItem(products[0]);
+      ref.read(cartProvider.notifier).addItem(products[1]);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     void removeItem(Product product) {
       ref.read(cartProvider.notifier).removeItem(product);
     }
 
     final cartItems = ref.watch(cartProvider);
+    print(cartItems);
 
     return Scaffold(
       appBar: AppBar(
