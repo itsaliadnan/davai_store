@@ -2,6 +2,7 @@ import 'package:davai_store/features/cart/presentation/view/cart_screen.dart';
 import 'package:davai_store/features/home/presentation/view/home_screen.dart';
 import 'package:davai_store/features/home/presentation/view/notifications_screen.dart';
 import 'package:davai_store/features/navbar/main_screen.dart';
+import 'package:davai_store/features/product_details/presentation/view/product_details.dart';
 import 'package:davai_store/features/search/presentation/view/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -25,9 +26,8 @@ final GoRouter router = GoRouter(
 
         GoRoute(path: '/search', builder: (context, state) => SearchScreen()),
         GoRoute(
-          path: '/saved',
-          builder: (context, state) =>
-              const Scaffold(body: Center(child: Text('Saved'))),
+          path: '/product-details',
+          builder: (context, state) => ProductDetails(),
         ),
         GoRoute(path: '/cart', builder: (context, state) => const CartScreen()),
         GoRoute(
