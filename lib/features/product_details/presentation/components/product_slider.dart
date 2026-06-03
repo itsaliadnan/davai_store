@@ -24,7 +24,7 @@ class _ProductSliderState extends State<ProductSlider> {
     return Column(
       children: [
         SizedBox(
-          height: 220,
+          height: 200,
           child: Stack(
             children: [
               PageView.builder(
