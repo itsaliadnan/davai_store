@@ -18,11 +18,6 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   void initState() {
     super.initState();
-
-    Future.microtask(() {
-      ref.read(cartProvider.notifier).addItem(products[0]);
-      ref.read(cartProvider.notifier).addItem(products[1]);
-    });
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:davai_store/core/model/product_model.dart';
-import 'package:riverpod/legacy.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 class CartController extends StateNotifier<List<Product>> {
   CartController() : super([]);
@@ -17,8 +17,6 @@ class CartController extends StateNotifier<List<Product>> {
   }
 }
 
-final cartProvider = StateNotifierProvider<CartController, List<Product>>((
-  ref,
-) {
-  return CartController();
-});
+final cartProvider = StateNotifierProvider<CartController, List<Product>>(
+  (ref) => CartController(),
+);

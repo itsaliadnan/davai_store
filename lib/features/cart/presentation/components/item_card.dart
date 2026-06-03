@@ -47,7 +47,12 @@ class _ItemCardState extends State<ItemCard> {
                     color: context.colorScheme.inversePrimary,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Image.asset(product.image),
+                  child: Image.asset(
+                    product.image,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.image_not_supported);
+                    },
+                  ),
                 ),
 
                 const SizedBox(width: 16),
