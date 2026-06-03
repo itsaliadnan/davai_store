@@ -5,11 +5,13 @@ class Product {
   final String image;
   final double price;
   final List<Color> colors;
+  final Color selectedColor;
 
   const Product({
     required this.title,
     required this.image,
     required this.price,
     this.colors = const [],
+    this.selectedColor = Colors.red,
   });
 }
