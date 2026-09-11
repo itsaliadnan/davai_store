@@ -1,0 +1,15 @@
+base_locale: ar
+fallback_strategy: base_locale
+input_directory: lib/localization
+input_file_pattern: .i18n.json
+output_directory: lib/localization
+output_file_name: translations.g.dart
+namespaces: false
+translate_var: t
+enum_name: AppLocale
+translation_class_visibility: private
+string_interpolation: dart
+render_flat_map: true
+translation_overrides: false
+render_timestamp: true
+render_statistics: true
