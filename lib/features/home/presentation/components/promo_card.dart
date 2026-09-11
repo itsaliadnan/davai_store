@@ -1,7 +1,5 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
-import 'package:davai_store/core/theme/spacing.dart';
-import 'package:davai_store/core/theme/typography.dart';
-import 'package:davai_store/core/model/promo_model.dart';
+import 'package:davai_store/features/home/data/model/promo_model.dart';
 import 'package:flutter/material.dart';
 
 class PromoCard extends StatelessWidget {
@@ -12,80 +10,111 @@ class PromoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      padding: const EdgeInsets.all(AppSpacing.lg),
-
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSpacing.lg),
-        gradient: LinearGradient(
-          colors: [
-            context.colorScheme.primaryContainer,
-            context.colorScheme.primaryContainer,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: context.colorScheme.primary.withValues(alpha: 0.25),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
           ],
         ),
-      ),
-
-      child: Stack(
-        children: [
-          // النص + الزر
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                promo.title,
-                style: AppTextStyles.small.copyWith(
-                  color: context.colorScheme.primary,
-                ),
-
-                // color: context.colorScheme.secondary,
-                // fontSize: 22,
-                // fontWeight: FontWeight.bold,
-              ),
-
-              const SizedBox(height: AppSpacing.sm),
-
-              SizedBox(
-                height: 60,
-                child: Text(
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  promo.subtitle,
-                  style: AppTextStyles.title.copyWith(
-                    color: context.colorScheme.secondary,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: AppSpacing.md),
-
-              ElevatedButton(
-                onPressed: onTap,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colorScheme.primary,
-                  foregroundColor: context.colorScheme.onPrimary,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.xs,
-                  ),
-                ),
-                child: Text(promo.buttonText),
-              ),
-            ],
-          ),
-
-          // الصورة
-          Positioned(
-            right: 0,
-            child: Image.asset(
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            /// BACKGROUND IMAGE
+            Image.network(
               promo.image,
-              height: 140,
-              width: 120,
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(color: context.colorScheme.primary);
+              },
             ),
-          ),
-        ],
+
+            /// FADED OVERLAY
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    context.colorScheme.primary.withValues(alpha: 0.85),
+                    context.colorScheme.primary.withValues(alpha: 0.55),
+                    context.colorScheme.primary.withValues(alpha: 0.20),
+                  ],
+                ),
+              ),
+            ),
+
+            /// CONTENT
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    promo.title.toUpperCase(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.2,
+                      color: context.colorScheme.onPrimary.withValues(
+                        alpha: 0.85,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  SizedBox(
+                    width: 220,
+                    child: Text(
+                      promo.description ?? '',
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 20,
+                        height: 1.2,
+                        fontWeight: FontWeight.w700,
+                        color: context.colorScheme.onPrimary,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  ElevatedButton(
+                    onPressed: onTap,
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      backgroundColor: context.colorScheme.onPrimary,
+                      foregroundColor: context.colorScheme.primary,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 10,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: const Text(
+                      'تسوق الان',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

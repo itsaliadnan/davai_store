@@ -1,43 +1,31 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
-import 'package:davai_store/core/model/product_model.dart';
+import 'package:davai_store/core/model/cart_items_model.dart';
+import 'package:davai_store/core/theme/spacing.dart';
 import 'package:flutter/material.dart';
 
-class ItemCard extends StatefulWidget {
-  final Product product;
+class ItemCard extends StatelessWidget {
+  final CartItem item;
   final VoidCallback onDelete;
+  final VoidCallback onIncrease;
+  final VoidCallback onDecrease;
 
-  const ItemCard({super.key, required this.product, required this.onDelete});
-
-  @override
-  State<ItemCard> createState() => _ItemCardState();
-}
-
-class _ItemCardState extends State<ItemCard> {
-  int quantity = 1;
-
-  void _increase() {
-    setState(() {
-      quantity++;
-    });
-  }
-
-  void _decrease() {
-    if (quantity > 1) {
-      setState(() {
-        quantity--;
-      });
-    }
-  }
+  const ItemCard({
+    super.key,
+    required this.item,
+    required this.onDelete,
+    required this.onIncrease,
+    required this.onDecrease,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final product = widget.product;
+    final product = item.product;
 
     return Stack(
       children: [
         Card(
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(AppSpacing.md),
             child: Row(
               children: [
                 Container(
@@ -45,125 +33,101 @@ class _ItemCardState extends State<ItemCard> {
                   width: 60,
                   decoration: BoxDecoration(
                     color: context.colorScheme.inversePrimary,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppSpacing.md),
                   ),
-                  child: Image.asset(
-                    product.image,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(Icons.image_not_supported);
-                    },
-                  ),
+                  child: product.image == null || product.image!.isEmpty
+                      ? const Icon(Icons.image_not_supported)
+                      : Image.asset(
+                          product.image!,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.image_not_supported);
+                          },
+                        ),
                 ),
 
-                const SizedBox(width: 16),
+                const SizedBox(width: AppSpacing.lg),
 
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'lights',
-                        style: TextStyle(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-
                       Text(
                         product.title,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: AppSpacing.lg,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
 
-                      const SizedBox(height: 6),
+                      const SizedBox(height: AppSpacing.sm),
 
-                      // colors
                       Container(
                         height: 20,
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        width: 20,
                         decoration: BoxDecoration(
+                          color: item.selectedColor,
+                          shape: BoxShape.circle,
                           border: Border.all(
-                            color: context.colorScheme.outlineVariant,
+                            color: context.colorScheme.outline,
                           ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: product.colors.map((c) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 4),
-                              height: 12,
-                              width: 12,
-                              decoration: BoxDecoration(
-                                color: c,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: context.colorScheme.outline,
-                                  width: 1,
-                                ),
-                              ),
-                            );
-                          }).toList(),
                         ),
                       ),
 
                       const SizedBox(height: 6),
 
-                      // السعر + العدّاد
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             '\$${product.price}',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: AppSpacing.lg,
                               color: context.colorScheme.primary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
 
-                          // Counter
                           Container(
-                            padding: EdgeInsets.all(2),
+                            padding: const EdgeInsets.all(AppSpacing.xs),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: context.colorScheme.outlineVariant,
                               ),
                               color: context.colorScheme.surfaceContainer,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(
+                                AppSpacing.sm,
+                              ),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 InkWell(
-                                  onTap: _decrease,
+                                  onTap: onDecrease,
                                   child: const SizedBox(
                                     width: 28,
                                     height: 28,
-                                    child: Icon(Icons.remove, size: 16),
+                                    child: Icon(Icons.remove),
                                   ),
                                 ),
 
-                                const SizedBox(width: 6),
+                                const SizedBox(width: AppSpacing.sm),
 
                                 Text(
-                                  '$quantity',
+                                  '${item.quantity}',
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
 
-                                const SizedBox(width: 6),
+                                const SizedBox(width: AppSpacing.sm),
 
                                 InkWell(
-                                  onTap: _increase,
+                                  onTap: onIncrease,
                                   child: const SizedBox(
                                     width: 28,
                                     height: 28,
-                                    child: Icon(Icons.add, size: 16),
+                                    child: Icon(Icons.add),
                                   ),
                                 ),
                               ],
@@ -178,15 +142,13 @@ class _ItemCardState extends State<ItemCard> {
             ),
           ),
         ),
+
         Positioned(
           top: 6,
           right: 6,
           child: GestureDetector(
-            onTap: widget.onDelete,
-            child: Container(
-              padding: const EdgeInsets.all(4),
-              child: const Icon(Icons.close, size: 16, color: Colors.black),
-            ),
+            onTap: onDelete,
+            child: const Icon(Icons.close, size: 16),
           ),
         ),
       ],

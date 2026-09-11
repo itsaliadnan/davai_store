@@ -1,52 +1,102 @@
-import 'package:davai_store/core/data/mock/product_mock_data.dart';
+import 'package:davai_store/core/data/providers/product_provider.dart';
 import 'package:davai_store/features/home/presentation/components/product_card.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:davai_store/core/theme/spacing.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductsSection extends StatelessWidget {
+class ProductsSection extends ConsumerWidget {
   const ProductsSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productsAsync = ref.watch(productProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Title
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'وصل حديثًا',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+              Expanded(
+                child: Text(
+                  context.t.home.newArrivals,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.2,
+                  ),
+                ),
               ),
-              TextButton(onPressed: () {}, child: const Text('عرض الكل')),
+
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(0, 0),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  context.t.home.showAll,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+                ),
+              ),
             ],
           ),
         ),
 
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: 16),
 
-        // Cards list
-        GridView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: products.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: AppSpacing.md,
-            crossAxisSpacing: AppSpacing.md,
-            childAspectRatio: 0.75,
-          ),
-          itemBuilder: (context, index) {
-            final product = products[index];
-            return ProductCard(product: product);
+        /// GRID
+        productsAsync.when(
+          data: (products) {
+            print("PRODUCTS: $products");
+            if (products.isEmpty) {
+              return const Center(child: Text('لا يوجد منتجات'));
+            }
+
+            return GridView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: products.length,
+
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 12,
+                childAspectRatio: 0.68,
+              ),
+
+              itemBuilder: (context, index) {
+                if (index >= products.length) {
+                  return const SizedBox(); // 🔥 حماية إضافية
+                }
+
+                final product = products[index];
+
+                return ProductCard(product: product);
+              },
+            );
           },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) => Center(
+            child: Column(
+              children: [
+                const Icon(Icons.error, color: Colors.red),
+                const SizedBox(height: 8),
+                Text('حدث خطأ: ${e.toString()}'),
+                TextButton(
+                  onPressed: () => ref.refresh(productProvider),
+                  child: const Text('إعادة المحاولة'),
+                ),
+              ],
+            ),
+          ),
         ),
+        const SizedBox(height: 8),
       ],
     );
   }

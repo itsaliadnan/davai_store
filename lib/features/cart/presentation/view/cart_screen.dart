@@ -1,10 +1,7 @@
-import 'package:davai_store/core/data/mock/product_mock_data.dart';
-import 'package:davai_store/core/model/product_model.dart';
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/features/cart/presentation/components/item_card.dart';
 import 'package:davai_store/features/cart/presentation/controller/cart_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
@@ -16,24 +13,13 @@ class CartScreen extends ConsumerStatefulWidget {
 
 class _CartScreenState extends ConsumerState<CartScreen> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    void removeItem(Product product) {
-      ref.read(cartProvider.notifier).removeItem(product);
-    }
-
     final cartItems = ref.watch(cartProvider);
-    print(cartItems);
 
     return Scaffold(
       appBar: AppBar(
         actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
-
-        title: Text('Cart'),
+        title: const Text('Cart'),
       ),
 
       body: Padding(
@@ -46,11 +32,15 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               child: ListView.builder(
                 itemCount: cartItems.length,
                 itemBuilder: (context, index) {
+                  final item = cartItems[index];
+
                   return Padding(
                     padding: const EdgeInsets.only(bottom: AppSpacing.lg),
                     child: ItemCard(
-                      product: cartItems[index],
-                      onDelete: () => removeItem(cartItems[index]),
+                      item: item,
+                      onDelete: () {
+                        ref.read(cartProvider.notifier).removeItem(item);
+                      }, onIncrease: () {  }, onDecrease: () {  },
                     ),
                   );
                 },

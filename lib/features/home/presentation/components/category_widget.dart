@@ -1,5 +1,4 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
-import 'package:davai_store/core/theme/spacing.dart';
 import 'package:flutter/material.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -16,40 +15,46 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    final colors = context.colorScheme;
 
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: onTap,
 
-        margin: const EdgeInsets.only(right: 12),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOut,
 
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.md,
-          vertical: AppSpacing.sm,
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected
-                ? context.colorScheme.primary
-                : context.colorScheme.shadow,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+
+          decoration: BoxDecoration(
+            color: isSelected ? colors.primary : colors.surfaceContainerHighest,
+
+            borderRadius: BorderRadius.circular(24),
+
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: colors.primary.withValues(alpha: 0.25),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : [],
           ),
-          color: isSelected
-              ? context.colorScheme.primary
-              : context.colorScheme.surfaceContainerHighest,
 
-          borderRadius: BorderRadius.circular(20),
-        ),
+          child: AnimatedDefaultTextStyle(
+            duration: const Duration(milliseconds: 200),
+            style: TextStyle(
+              fontSize: 14, // 🔥 أكبر = أوضح
+              fontWeight: FontWeight.w600,
 
-        child: Text(
-          textAlign: TextAlign.center,
-          title,
-          style: TextStyle(
-            color: isSelected
-                ? context.colorScheme.secondary
-                : context.colorScheme.tertiary,
-            fontWeight: FontWeight.w500,
-            fontSize: 12,
+              color: isSelected ? colors.onPrimary : colors.onSurfaceVariant,
+            ),
+
+            child: Text(title),
           ),
         ),
       ),

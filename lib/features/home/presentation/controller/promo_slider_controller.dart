@@ -8,19 +8,25 @@ class PromoSliderController {
   final ValueNotifier<int> currentIndex = ValueNotifier(0);
 
   Timer? timer;
-
   void startAutoPlay({required int itemCount}) {
-    timer = Timer.periodic(const Duration(seconds: 4), (_) {
+    timer?.cancel();
+
+    if (itemCount <= 1) return;
+
+    timer = Timer.periodic(const Duration(seconds: 4), (_) async {
       if (!pageController.hasClients) return;
 
-      int nextPage = currentIndex.value + 1;
+      final current = currentIndex.value;
 
-      if (nextPage >= itemCount) {
-        nextPage = 0;
+      // إذا وصلنا إلى آخر صورة
+      if (current == itemCount - 1) {
+        pageController.jumpToPage(0);
+        return;
       }
 
+      // الانتقال للصورة التالية
       pageController.animateToPage(
-        nextPage,
+        current + 1,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );

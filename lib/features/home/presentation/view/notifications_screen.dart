@@ -1,3 +1,4 @@
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -6,7 +7,7 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Notifications')),
+      appBar: AppBar(title: Text(context.t.home.notifications)),
       body: Center(
         child: Text(
           'Welcome to the Notifications Screen!',

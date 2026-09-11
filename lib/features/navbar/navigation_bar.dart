@@ -1,15 +1,11 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
-import 'package:davai_store/core/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Nav item model
-// ─────────────────────────────────────────────────────────────────────────────
 class LuxeNavItem {
   final IconData icon;
   final IconData iconFilled;
   final String label;
-  final int? badgeCount; // null = no badge, 0 = dot only, >0 = number
+  final int? badgeCount;
 
   const LuxeNavItem({
     required this.icon,
@@ -19,20 +15,10 @@ class LuxeNavItem {
   });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LuxeBottomNavBar
-//
-// Usage:
-//   LuxeBottomNavBar(
-//     currentIndex: _index,
-//     onTap: (i) => setState(() => _index = i),
-//     cartBadgeCount: 3,
-//   )
-// ─────────────────────────────────────────────────────────────────────────────
 class LuxeBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
-  final int? cartBadgeCount; // overrides default cart badge
+  final int? cartBadgeCount;
 
   const LuxeBottomNavBar({
     super.key,
@@ -48,7 +34,7 @@ class LuxeBottomNavBar extends StatelessWidget {
       label: 'Home',
     ),
     LuxeNavItem(
-      icon: Icons.search_rounded,
+      icon: Icons.search_outlined,
       iconFilled: Icons.search_rounded,
       label: 'Search',
     ),
@@ -71,34 +57,25 @@ class LuxeBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomPadding = MediaQuery.paddingOf(context).bottom;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: context.colorScheme.onPrimaryContainer.withValues(alpha: 0.2),
-        border: Border(
-          top: BorderSide(color: context.colorScheme.outline, width: 0.5),
-        ),
-      ),
+    return SafeArea(
+      top: false,
       child: Padding(
-        padding: EdgeInsets.only(
-          top: 8,
-          bottom: bottomPadding > 0 ? bottomPadding : 16,
-        ),
+        padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12, top: 8),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(_items.length, (index) {
             final item = _items[index];
-            final isActive = index == currentIndex;
 
-            // Attach badge to cart (index 3)
             final badge = index == 3 ? cartBadgeCount : item.badgeCount;
 
-            return _LuxeNavTile(
-              item: item,
-              isActive: isActive,
-              badge: badge,
-              onTap: () => onTap(index),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: _LuxeNavTile(
+                item: item,
+                isActive: index == currentIndex,
+                badge: badge,
+                onTap: () => onTap(index),
+              ),
             );
           }),
         ),
@@ -107,9 +84,8 @@ class LuxeBottomNavBar extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Single tile
-// ─────────────────────────────────────────────────────────────────────────────
+// NAV ITEM
+
 class _LuxeNavTile extends StatefulWidget {
   final LuxeNavItem item;
   final bool isActive;
@@ -129,133 +105,114 @@ class _LuxeNavTile extends StatefulWidget {
 
 class _LuxeNavTileState extends State<_LuxeNavTile>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-  late final Animation<double> _scale;
-  late final Animation<double> _opacity;
+  late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _ctrl = AnimationController(
+
+    _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
+      value: widget.isActive ? 1 : 0,
     );
-    _scale = Tween<double>(
-      begin: 1.0,
-      end: 1.18,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOutBack));
-    _opacity = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
-
-    if (widget.isActive) _ctrl.value = 1.0;
   }
 
   @override
-  void didUpdateWidget(_LuxeNavTile old) {
-    super.didUpdateWidget(old);
-    if (widget.isActive != old.isActive) {
-      widget.isActive ? _ctrl.forward() : _ctrl.reverse();
+  void didUpdateWidget(covariant _LuxeNavTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.isActive != oldWidget.isActive) {
+      if (widget.isActive) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
     }
   }
 
   @override
   void dispose() {
-    _ctrl.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final active = widget.isActive;
+    final colors = context.colorScheme;
 
     return GestureDetector(
       onTap: widget.onTap,
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
-        width: 64,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Icon + badge
-            AnimatedBuilder(
-              animation: _ctrl,
-              builder: (_, __) => Transform.scale(
-                scale: _scale.value,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    // Active pill indicator
-                    if (active)
-                      Positioned.fill(
-                        child: FadeTransition(
-                          opacity: _opacity,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: context.colorScheme.primary.withOpacity(
-                                0.15,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                      ),
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          final active = widget.isActive;
 
-                    // Icon
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      child: Icon(
-                        active ? widget.item.icon : widget.item.icon,
-                        size: 24,
-                        color: active
-                            ? context.colorScheme.primary
-                            : context.colorScheme.tertiary,
-                      ),
-                    ),
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+            width: 54,
+            height: 54,
+            decoration: BoxDecoration(
+              // كل عنصر له خلفيته الخاصة
+              color: Colors.white,
 
-                    // Badge
-                    if (widget.badge != null)
-                      Positioned(
-                        top: 2,
-                        right: 8,
-                        child: _Badge(count: widget.badge!),
-                      ),
-                  ],
+              borderRadius: BorderRadius.circular(16),
+
+              // تمييز بسيط للعنصر النشط
+              border: active
+                  ? Border.all(
+                      color: colors.primary.withValues(alpha: 0.35),
+                      width: 1.5,
+                    )
+                  : null,
+
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: active ? 0.14 : 0.08),
+                  blurRadius: active ? 14 : 10,
+                  offset: const Offset(0, 5),
                 ),
-              ),
+              ],
             ),
 
-            const SizedBox(height: 2),
+            child: Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                // ICON
+                AnimatedScale(
+                  scale: active ? 1.08 : 1.0,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeOutBack,
+                  child: Icon(
+                    active ? widget.item.iconFilled : widget.item.icon,
+                    size: 25,
+                    color: active ? colors.primary : colors.onSurfaceVariant,
+                  ),
+                ),
 
-            // Label
-            AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 180),
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: active ? FontWeight.w600 : FontWeight.w400,
-                color: active
-                    ? context.colorScheme.primary
-                    : context.colorScheme.tertiary,
-                letterSpacing: active ? 0.1 : 0,
-              ),
-              child: Text(widget.item.label),
+                // BADGE
+                if (widget.badge != null)
+                  Positioned(
+                    top: 7,
+                    right: 7,
+                    child: _Badge(count: widget.badge!),
+                  ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Badge — dot (count == 0) or number pill (count > 0)
-// ─────────────────────────────────────────────────────────────────────────────
+// BADGE
+
 class _Badge extends StatelessWidget {
   final int count;
+
   const _Badge({required this.count});
 
   @override
@@ -263,28 +220,27 @@ class _Badge extends StatelessWidget {
     final isDot = count == 0;
 
     return Container(
-      width: isDot ? 8 : null,
-      height: isDot ? 8 : 16,
-      padding: isDot ? null : const EdgeInsets.symmetric(horizontal: 5),
+      constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+      padding: isDot
+          ? EdgeInsets.zero
+          : const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
-        color: AppColors.alertRed,
-        borderRadius: BorderRadius.circular(isDot ? 4 : 8),
-        border: Border.all(
-          color: context.colorScheme.primaryContainer,
-          width: 1.5,
-        ),
+        color: context.colorScheme.error,
+        borderRadius: BorderRadius.circular(10),
+
+        border: Border.all(color: Colors.white, width: 2),
       ),
       child: isDot
-          ? null
+          ? const SizedBox(width: 6, height: 6)
           : Text(
               count > 99 ? '99+' : '$count',
+              textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 9,
+                fontSize: 8,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
-                height: 1,
+                height: 1.3,
               ),
-              textAlign: TextAlign.center,
             ),
     );
   }

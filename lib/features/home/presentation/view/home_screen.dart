@@ -1,10 +1,11 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
-import 'package:davai_store/features/home/presentation/components/category_section.dart';
 import 'package:davai_store/features/home/presentation/components/products_section.dart';
-import 'package:davai_store/features/home/presentation/components/search_bar.dart';
 import 'package:davai_store/features/home/presentation/components/promo_slider.dart';
+import 'package:davai_store/features/home/presentation/components/search_bar.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,67 +15,71 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
+        centerTitle: true,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        title: Text(
+          context.t.home.davaiStore,
+          style: context.text.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+        ),
         actions: [
-          Container(
-            height: 35,
-            width: 35,
-            decoration: BoxDecoration(
-              color: context.colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(AppSpacing.lg),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(right: AppSpacing.md),
+
             child: IconButton(
               icon: Icon(
-                size: 16,
                 Icons.notifications_none,
-                color: context.colorScheme.primary,
+                size: 28,
+                color: context.colorScheme.onSurface,
               ),
-              onPressed: () {
-                context.go('/notifications');
-              },
+              onPressed: () => context.push('/notifications'),
             ),
           ),
         ],
-        title: Text('Davai Store'),
+        leading: IconButton(
+          icon: SvgPicture.asset(
+            'assets/icons/category.svg',
+            width: 20,
+            height: 20,
+            colorFilter: ColorFilter.mode(
+              context.colorScheme.onSurface,
+              BlendMode.srcIn,
+            ),
+          ),
+          onPressed: () {
+            context.push('/products-category-screen');
+          },
+        ),
       ),
 
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xs),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SearchBarWidget(),
-              SizedBox(height: AppSpacing.lg),
-              const PromoSlider(),
-              SizedBox(height: AppSpacing.lg),
-              const CategorySection(),
-              SizedBox(height: AppSpacing.lg),
-              const ProductsSection(),
-              SizedBox(height: AppSpacing.lg),
-            ],
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.sm,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                const SearchBarWidget(),
+
+                const SizedBox(height: 20),
+
+                const PromoSlider(),
+
+                const SizedBox(height: 28),
+
+                // const CategorySection(),
+                const SizedBox(height: 28),
+
+                const ProductsSection(),
+                const SizedBox(height: 40),
+              ]),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
-// lib/
-//  ├── core/
-//  │    ├── theme/
-//  │    ├── router/
-//  │    ├── extensions/
-//  │    ├── utils/
-//  │    ├── widgets/
-//  │
-//  ├── features/
-//  │    ├── home/
-//  │    │    ├── presentation/
-//  │    │    ├── domain/
-//  │    │    ├── data/
-//  │    │
-//  │    ├── search/
-//  │    ├── notifications/
-//  │
-//  ├── shared/
-//  └── main.dart

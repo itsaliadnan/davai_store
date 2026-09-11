@@ -1,44 +1,49 @@
-import 'package:davai_store/core/data/mock/category_mock_data.dart';
-import 'package:davai_store/features/home/presentation/components/category_widget.dart';
-import 'package:flutter/material.dart';
+// import 'package:davai_store/core/data/mock/category_mock_data.dart';
+// import 'package:davai_store/features/home/presentation/components/category_widget.dart';
+// import 'package:flutter/material.dart';
 
-class CategorySection extends StatefulWidget {
-  const CategorySection({super.key});
+// class CategorySection extends StatefulWidget {
+//   const CategorySection({super.key});
 
-  @override
-  State<CategorySection> createState() => _CategorySectionState();
-}
+//   @override
+//   State<CategorySection> createState() => _CategorySectionState();
+// }
 
-class _CategorySectionState extends State<CategorySection> {
-  int selectedIndex = 0;
+// class _CategorySectionState extends State<CategorySection> {
+//   int selectedIndex = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 32,
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 40, // 🔥 أهم تغيير
+//       child: ListView.separated(
+//         scrollDirection: Axis.horizontal,
+//         padding: const EdgeInsets.symmetric(horizontal: 4),
+//         physics: const BouncingScrollPhysics(),
 
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: categories.length,
+//         itemCount: categories.length,
 
-        itemBuilder: (context, index) {
-          final category = categories[index];
+//         separatorBuilder: (_, _) => const SizedBox(width: 8),
 
-          return CategoryItem(
-            title: category.title,
+//         itemBuilder: (context, index) {
+//           final category = categories[index];
 
-            isSelected: selectedIndex == index,
+//           return AnimatedScale(
+//             duration: const Duration(milliseconds: 200),
+//             scale: selectedIndex == index ? 1.0 : 0.95,
 
-            onTap: () {
-              setState(() {
-                selectedIndex = index;
-              });
-
-              // لاحقاً: filter products
-            },
-          );
-        },
-      ),
-    );
-  }
-}
+//             child: CategoryItem(
+//               title: category.title,
+//               isSelected: selectedIndex == index,
+//               onTap: () {
+//                 setState(() {
+//                   selectedIndex = index;
+//                 });
+//               },
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }

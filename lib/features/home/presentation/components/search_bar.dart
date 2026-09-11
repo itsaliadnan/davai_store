@@ -1,5 +1,6 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -48,7 +49,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           color: isFocused
               ? context.colorScheme.primary
               : context.colorScheme.shadow,
-          width: 2,
+          width: isFocused ? 2.5 : 1.5,
         ),
       ),
 
@@ -63,11 +64,13 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               focusNode: _focusNode,
 
               cursorColor: context.colorScheme.primary,
-              style: context.textTheme.bodyMedium,
+              style: context.text.bodyMedium,
               decoration: InputDecoration(
-                hintText: 'Search products',
-                hintStyle: context.textTheme.bodyMedium?.copyWith(
-                  color: context.colorScheme.onSurfaceVariant.withOpacity(0.5),
+                hintText: context.t.home.searchProduct,
+                hintStyle: context.text.bodyMedium?.copyWith(
+                  color: context.colorScheme.onSurfaceVariant.withValues(
+                    alpha: 0.5,
+                  ),
                 ),
                 border: InputBorder.none,
                 isDense: true,
@@ -89,7 +92,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                 'assets/icons/filter.svg',
                 height: 14,
                 width: 14,
-                color: context.colorScheme.tertiary,
+                colorFilter: ColorFilter.mode(
+                  context.colorScheme.onPrimary,
+                  BlendMode.srcIn,
+                ),
               ),
               onPressed: () {},
             ),
