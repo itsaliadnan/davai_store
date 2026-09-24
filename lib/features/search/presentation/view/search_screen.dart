@@ -1,91 +1,58 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/features/home/presentation/components/search_bar.dart';
+import 'package:davai_store/features/search/presentation/components/search_results_section.dart';
 import 'package:davai_store/features/search/presentation/components/sorted_button.dart';
+import 'package:davai_store/features/search/presentation/provider/search_provider.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends ConsumerWidget {
   const SearchScreen({super.key});
 
+  Future<void> _onRefresh(WidgetRef ref) async {
+    ref.invalidate(searchResultsProvider);
+    await ref.read(searchResultsProvider.future);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
-        actions: [
-          Container(
-            height: 35,
-            width: 35,
-            decoration: BoxDecoration(
-              color: context.colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(AppSpacing.lg),
-            ),
-            child: IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/filter.svg',
-                colorFilter: ColorFilter.mode(
-                  context.colorScheme.primary,
-                  BlendMode.srcIn,
+      appBar: AppBar(title: Text(context.t.profile.search)),
+
+      body: RefreshIndicator(
+        onRefresh: () => _onRefresh(ref),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SearchBarWidget(),
+                SizedBox(height: AppSpacing.lg),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      context.t.products.products,
+                      style: context.text.titleMedium,
+                    ),
+                    SortByButton(
+                      onSelected: (String value) {
+                        ref.read(sortByProvider.notifier).state = value;
+                      },
+                    ),
+                  ],
                 ),
-                height: 16,
-              ),
-              onPressed: () {
-                context.go('/notifications');
-              },
+
+                SizedBox(height: AppSpacing.sm),
+                const SearchResultsSection(),
+
+                SizedBox(height: AppSpacing.lg),
+              ],
             ),
-          ),
-          SizedBox(width: AppSpacing.md),
-          Container(
-            height: 35,
-            width: 35,
-            decoration: BoxDecoration(
-              color: context.colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(AppSpacing.lg),
-            ),
-            child: IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/category.svg',
-                colorFilter: ColorFilter.mode(
-                  context.colorScheme.primary,
-                  BlendMode.srcIn,
-                ),
-                height: 16,
-              ),
-              onPressed: () {
-                context.go('/notifications');
-              },
-            ),
-          ),
-        ],
-        title: Text('Shop'),
-      ),
-
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SearchBarWidget(),
-              SizedBox(height: AppSpacing.lg),
-              // const CategorySection(),
-              SizedBox(height: AppSpacing.lg),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Products', style: context.text.titleMedium),
-
-                  SortByButton(),
-                ],
-              ),
-
-              SizedBox(height: AppSpacing.sm),
-              // const ProductsSection(),
-              SizedBox(height: AppSpacing.lg),
-            ],
           ),
         ),
       ),
