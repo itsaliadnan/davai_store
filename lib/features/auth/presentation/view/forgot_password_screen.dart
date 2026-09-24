@@ -1,7 +1,8 @@
 import 'package:davai_store/core/theme/spacing.dart';
+import 'package:davai_store/core/utils/app_snackbar.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_provider.dart';
-import 'package:davai_store/features/widgets/custom_button.dart';
-import 'package:davai_store/features/widgets/text_field.dart';
+import 'package:davai_store/core/widgets/custom_button.dart';
+import 'package:davai_store/core/widgets/text_field.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,9 +51,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     ),
                   ],
                 ),
-
                 Lottie.asset('assets/lottie/passwordLost.json'),
-
                 SizedBox(height: AppSpacing.xl),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -83,24 +82,25 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     final email = emailController.text.trim();
 
                     if (email.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Enter your email')),
-                      );
+                      AppSnackBar.error(context, context.t.auth.enterYourEmail);
                       return;
                     }
 
                     try {
                       await ref.read(userApiProvider).forgotPassword(email);
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('OTP sent to your email')),
+                      if (!context.mounted) return;
+
+                      AppSnackBar.success(
+                        context,
+                        context.t.auth.otpSentToYourEmail,
                       );
 
                       context.push('/otp-screen', extra: email);
                     } catch (e) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(e.toString())));
+                      if (!context.mounted) return;
+
+                      AppSnackBar.error(context, e.toString());
                     }
                   },
                 ),

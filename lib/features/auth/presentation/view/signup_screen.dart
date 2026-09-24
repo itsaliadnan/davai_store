@@ -1,8 +1,8 @@
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_provider.dart';
-import 'package:davai_store/features/widgets/custom_button.dart';
-import 'package:davai_store/features/widgets/phone_field.dart';
-import 'package:davai_store/features/widgets/text_field.dart';
+import 'package:davai_store/core/widgets/custom_button.dart';
+import 'package:davai_store/core/widgets/phone_field.dart';
+import 'package:davai_store/core/widgets/text_field.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,3 +1,4 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:flutter/material.dart';
 
 class PromoIndicator extends StatelessWidget {
@@ -28,7 +29,9 @@ class PromoIndicator extends StatelessWidget {
           width: isActive ? 24 : 8,
 
           decoration: BoxDecoration(
-            color: isActive ? Colors.blue : Colors.grey.shade300,
+            color: isActive
+                ? context.colorScheme.tertiaryContainer
+                : context.colorScheme.onTertiary,
 
             borderRadius: BorderRadius.circular(20),
           ),

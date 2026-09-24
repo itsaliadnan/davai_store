@@ -1,8 +1,7 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
-import 'package:davai_store/features/auth/presentation/providers/user_provider.dart';
-import 'package:davai_store/features/auth/presentation/providers/user_session_provider.dart';
-import 'package:davai_store/features/widgets/custom_button.dart';
-import 'package:davai_store/features/widgets/text_field.dart';
+import 'package:davai_store/core/widgets/hold_to_login.dart';
+import 'package:davai_store/core/widgets/text_field.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,6 +54,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   hintText: context.t.auth.enterYourEmail,
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email,
+                  prefixIconColor: context.colorScheme.onPrimaryContainer,
+                  hintTextColor: context.colorScheme.onPrimaryContainer,
+                  textColor: context.colorScheme.onPrimaryContainer,
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 CustomTextField(
@@ -62,60 +64,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   hintText: context.t.auth.enterYourPassword,
                   isPassword: true,
                   prefixIcon: Icons.lock,
+                  prefixIconColor: context.colorScheme.onPrimaryContainer,
+                  hintTextColor: context.colorScheme.onPrimaryContainer,
+                  textColor: context.colorScheme.onPrimaryContainer,
                 ),
 
                 const SizedBox(height: AppSpacing.lg),
-                CustomButton(
+                HoldToLogin(
+                  emailController: emailController,
+                  passwordController: passwordController,
                   width: 140,
-                  text: context.t.auth.login,
-                  isLoading: isLoading,
-                  onPressed: () async {
-                    if (isLoading) return;
-                    if (emailController.text.isEmpty ||
-                        passwordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(context.t.auth.pleaseFillInAllFields),
-                        ),
-                      );
-                      return;
-                    }
-
-                    setState(() => isLoading = true);
-
-                    try {
-                      final user = await ref
-                          .read(userApiProvider)
-                          .loginUser(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
-                          );
-                      await ref
-                          .read(userSessionControllerProvider.notifier)
-                          .saveSession(user.id, user.email);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Welcome ${user.name}')),
-                      );
-
-                      if (mounted) {
-                        context.go('/home');
-                      }
-                    } catch (e, stack) {
-                      print("LOGIN ERROR: $e");
-                      print("STACK: $stack");
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(context.t.auth.wrongPassOrEmail),
-                        ),
-                      );
-
-                      if (mounted) {
-                        setState(() => isLoading = false);
-                      }
-                    }
-                  },
                 ),
 
                 SizedBox(height: 80),
@@ -130,13 +88,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       onPressed: () {
                         context.push('/forgot-password');
                       },
-                      child: Text(context.t.auth.forgetPassword),
+                      child: Text(
+                        context.t.auth.forgetPassword,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: context.colorScheme.inversePrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.sm),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(context.t.auth.dontHaveAnAccount),
+                        Text(
+                          context.t.auth.dontHaveAnAccount,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        SizedBox(width: 4),
                         TextButton(
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
@@ -146,7 +118,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           onPressed: () {
                             context.push('/register');
                           },
-                          child: Text(context.t.auth.signUp),
+                          child: Text(
+                            context.t.auth.signUp,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: context.colorScheme.inversePrimary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
                       ],
                     ),

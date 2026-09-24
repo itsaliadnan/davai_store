@@ -1,5 +1,6 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/features/home/data/model/promo_model.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 
 class PromoCard extends StatelessWidget {
@@ -105,8 +106,8 @@ class PromoCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                    child: const Text(
-                      'تسوق الان',
+                    child: Text(
+                      context.t.home.shopNow,
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),

@@ -66,7 +66,7 @@ class UserProvider {
   // Login
   // =========================
 
-  Future<UserModel> loginUser(String email, String password) async {
+  Future<Map<String, dynamic>> loginUser(String email, String password) async {
     return await repo.login(email, password);
   }
 

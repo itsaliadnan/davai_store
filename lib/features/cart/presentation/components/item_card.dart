@@ -1,5 +1,5 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
-import 'package:davai_store/core/model/cart_items_model.dart';
+import 'package:davai_store/features/cart/data/model/cart_items_model.dart';
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:flutter/material.dart';
 
@@ -37,8 +37,9 @@ class ItemCard extends StatelessWidget {
                   ),
                   child: product.image == null || product.image!.isEmpty
                       ? const Icon(Icons.image_not_supported)
-                      : Image.asset(
+                      : Image.network(
                           product.image!,
+                          fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return const Icon(Icons.image_not_supported);
                           },

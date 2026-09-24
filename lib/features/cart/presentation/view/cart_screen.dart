@@ -1,6 +1,7 @@
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/features/cart/presentation/components/item_card.dart';
-import 'package:davai_store/features/cart/presentation/controller/cart_controller.dart';
+import 'package:davai_store/features/cart/data/controller/cart_controller.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,7 +20,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         actionsPadding: const EdgeInsets.only(right: AppSpacing.md),
-        title: const Text('Cart'),
+        title: Text(context.t.products.cart),
       ),
 
       body: Padding(
@@ -40,7 +41,13 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                       item: item,
                       onDelete: () {
                         ref.read(cartProvider.notifier).removeItem(item);
-                      }, onIncrease: () {  }, onDecrease: () {  },
+                      },
+                      onIncrease: () {
+                        ref.read(cartProvider.notifier).increaseQuantity(index);
+                      },
+                      onDecrease: () {
+                        ref.read(cartProvider.notifier).decreaseQuantity(index);
+                      },
                     ),
                   );
                 },

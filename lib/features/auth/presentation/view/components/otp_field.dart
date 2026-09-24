@@ -1,3 +1,4 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -13,9 +14,9 @@ class OtpField extends StatelessWidget {
       height: 60,
       textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: context.colorScheme.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: context.colorScheme.surfaceDim),
       ),
     );
 
@@ -24,11 +25,11 @@ class OtpField extends StatelessWidget {
         length: 6,
         defaultPinTheme: defaultPinTheme,
         focusedPinTheme: defaultPinTheme.copyDecorationWith(
-          border: Border.all(color: Colors.blue, width: 2),
+          border: Border.all(color: context.colorScheme.primary, width: 2),
         ),
         submittedPinTheme: defaultPinTheme.copyDecorationWith(
-          color: Colors.blue.shade50,
-          border: Border.all(color: Colors.blue),
+          color: context.colorScheme.surface,
+          border: Border.all(color: context.colorScheme.surfaceDim),
         ),
         onCompleted: (pin) {
           onCompleted(pin);

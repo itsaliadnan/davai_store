@@ -1,9 +1,11 @@
-import 'package:davai_store/core/data/providers/product_provider.dart';
-import 'package:davai_store/features/home/presentation/components/product_card.dart';
+import 'package:davai_store/features/products/data/providers/product_provider.dart';
+import 'package:davai_store/core/extentions/theme_extentions.dart';
+import 'package:davai_store/features/products/presentation/view/product_card.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductsSection extends ConsumerWidget {
   const ProductsSection({super.key});
@@ -30,7 +32,9 @@ class ProductsSection extends ConsumerWidget {
               ),
 
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push('/all-product');
+                },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   minimumSize: const Size(0, 0),
@@ -52,9 +56,8 @@ class ProductsSection extends ConsumerWidget {
         /// GRID
         productsAsync.when(
           data: (products) {
-            print("PRODUCTS: $products");
             if (products.isEmpty) {
-              return const Center(child: Text('لا يوجد منتجات'));
+              return Center(child: Text(context.t.erorrs.noProductsFound));
             }
 
             return GridView.builder(
@@ -72,7 +75,7 @@ class ProductsSection extends ConsumerWidget {
 
               itemBuilder: (context, index) {
                 if (index >= products.length) {
-                  return const SizedBox(); // 🔥 حماية إضافية
+                  return const SizedBox();
                 }
 
                 final product = products[index];
@@ -85,12 +88,12 @@ class ProductsSection extends ConsumerWidget {
           error: (e, _) => Center(
             child: Column(
               children: [
-                const Icon(Icons.error, color: Colors.red),
+                Icon(Icons.error, color: context.colorScheme.error),
                 const SizedBox(height: 8),
                 Text('حدث خطأ: ${e.toString()}'),
                 TextButton(
                   onPressed: () => ref.refresh(productProvider),
-                  child: const Text('إعادة المحاولة'),
+                  child: Text(context.t.erorrs.tryAgain),
                 ),
               ],
             ),

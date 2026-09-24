@@ -62,8 +62,6 @@ class MainScreen extends StatelessWidget {
                     break;
                 }
               },
-
-              cartBadgeCount: 3,
             ),
           ),
         ],

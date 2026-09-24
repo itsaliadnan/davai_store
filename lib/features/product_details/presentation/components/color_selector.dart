@@ -1,3 +1,4 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:flutter/material.dart';
 
 class ColorSelector extends StatelessWidget {
@@ -28,7 +29,9 @@ class ColorSelector extends StatelessWidget {
               color: color,
               shape: BoxShape.circle,
               border: Border.all(
-                color: isSelected ? Colors.black : Colors.grey.shade300,
+                color: isSelected
+                    ? context.colorScheme.onSurface
+                    : context.colorScheme.onSecondary,
                 width: isSelected ? 3 : 1,
               ),
             ),

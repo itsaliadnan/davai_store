@@ -1,8 +1,8 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
+import 'package:davai_store/features/home/presentation/components/bento_promo_section.dart';
 import 'package:davai_store/features/home/presentation/components/products_section.dart';
-import 'package:davai_store/features/home/presentation/components/promo_slider.dart';
-import 'package:davai_store/features/home/presentation/components/search_bar.dart';
+import 'package:davai_store/features/home/presentation/components/story_categories.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -56,21 +56,21 @@ class HomeScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.sm,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                const SearchBarWidget(),
+                // const SearchBarWidget(),
+                const SizedBox(height: 4),
+
+                const StoryCategories(),
 
                 const SizedBox(height: 20),
 
-                const PromoSlider(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                  child: BentoPromoSection(),
+                ),
 
-                const SizedBox(height: 28),
-
-                // const CategorySection(),
                 const SizedBox(height: 28),
 
                 const ProductsSection(),

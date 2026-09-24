@@ -1,7 +1,8 @@
 import 'package:davai_store/features/home/presentation/components/promo_card.dart';
 import 'package:davai_store/features/home/presentation/components/promo_indicator.dart';
-import 'package:davai_store/features/home/presentation/controller/promo_provider.dart';
-import 'package:davai_store/features/home/presentation/controller/promo_slider_controller.dart';
+import 'package:davai_store/features/home/data/provider/promo_provider.dart';
+import 'package:davai_store/features/home/data/provider/promo_slider_controller.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,9 +35,9 @@ class _PromoSliderState extends ConsumerState<PromoSlider> {
         child: Center(child: CircularProgressIndicator()),
       ),
 
-      error: (e, _) => const SizedBox(
+      error: (e, _) => SizedBox(
         height: 200,
-        child: Center(child: Text('Error loading promos')),
+        child: Center(child: Text(context.t.erorrs.noProductsFound)),
       ),
 
       data: (promos) {
@@ -71,12 +72,7 @@ class _PromoSliderState extends ConsumerState<PromoSlider> {
                         scale: value,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
-                          child: PromoCard(
-                            promo: promo,
-                            onTap: () {
-                              // context.push(...)
-                            },
-                          ),
+                          child: PromoCard(promo: promo, onTap: () {}),
                         ),
                       );
                     },

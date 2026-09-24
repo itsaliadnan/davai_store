@@ -1,8 +1,12 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
-import 'package:davai_store/core/model/product_model.dart';
+import 'package:davai_store/features/products/data/model/product_model.dart';
 import 'package:davai_store/core/theme/spacing.dart';
-import 'package:davai_store/features/cart/presentation/controller/cart_controller.dart';
+import 'package:davai_store/features/cart/data/controller/cart_controller.dart';
+import 'package:davai_store/features/favorite/controller/favorite_controller.dart';
+import 'package:davai_store/features/product_details/presentation/components/circle_button.dart';
 import 'package:davai_store/features/product_details/presentation/components/product_slider.dart';
+import 'package:davai_store/features/product_details/presentation/components/quantity_selector.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,159 +22,128 @@ class ProductDetails extends ConsumerStatefulWidget {
 
 class _ProductDetailsState extends ConsumerState<ProductDetails> {
   int quantity = 1;
+  bool _descriptionExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
     final colors = context.colorScheme;
+    final text = context.text;
+    final favorites = ref.watch(favoritesProvider);
+    final isFav = favorites.contains(product.id);
 
     return Scaffold(
-      backgroundColor: colors.surface,
-
-      // ============================================================
-      // APP BAR
-      // ============================================================
-      appBar: AppBar(
-        backgroundColor: colors.surface,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: _CircleButton(
-            icon: Icons.arrow_back_ios_new_rounded,
-            onTap: () => context.pop(),
-          ),
-        ),
-
-        title: Text(
-          'Product Details',
-          style: context.text.titleMedium?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: _CircleButton(
-              icon: Icons.favorite_border_rounded,
-              onTap: () {
-                // TODO: Favorite
-              },
-            ),
-          ),
-        ],
-      ),
-
-      // ============================================================
-      // BODY
-      // ============================================================
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.only(bottom: 120),
+        padding: const EdgeInsets.only(bottom: 130),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 8),
+            Stack(
+              children: [
+                ProductSlider(product: product),
 
-            // PRODUCT IMAGES
-            ProductSlider(product: product),
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: SafeArea(
+                    bottom: false,
+                    child: CircleButton(
+                      icon: Icons.arrow_back_ios_new_rounded,
+                      onTap: () => context.pop(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
 
-            const SizedBox(height: 28),
+            const SizedBox(height: 22),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ========================================================
                   // TITLE
-                  // ========================================================
                   Text(
                     product.title,
-                    style: context.text.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w800,
-                    ),
+                    style: text.headlineSmall?.copyWith(letterSpacing: -0.3),
                   ),
 
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 6),
 
-                  // ========================================================
-                  // PRICE + RATING
-                  // ========================================================
+                  // RATING
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        '${product.price.toStringAsFixed(2)}\$',
-                        style: context.text.headlineSmall?.copyWith(
-                          color: colors.primary,
-                          fontWeight: FontWeight.w800,
-                        ),
+                      const Icon(
+                        Icons.star_rounded,
+                        size: 16,
+                        color: Colors.amber,
                       ),
-
-                      const Spacer(),
-
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 7,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.amber.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.star_rounded,
-                              size: 17,
-                              color: Colors.amber,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '4.5',
-                              style: context.text.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
+                      const SizedBox(width: 4),
+                      Text(
+                        '4.5',
+                        style: text.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          height: 1,
                         ),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 18),
 
-                  Divider(height: 1, color: colors.outlineVariant),
-
-                  const SizedBox(height: 24),
-
-                  // ========================================================
-                  // DESCRIPTION
-                  // ========================================================
+                  // PRICE
                   Text(
-                    'Description',
-                    style: context.text.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                    '${product.price.toStringAsFixed(2)}\$',
+                    style: text.headlineSmall?.copyWith(
+                      color: colors.error,
+                      letterSpacing: -0.5,
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 22),
+
+                  // DESCRIPTION
+                  Text(context.t.products.description, style: text.titleMedium),
+
+                  const SizedBox(height: 8),
 
                   Text(
                     product.description.isNotEmpty
                         ? product.description
-                        : 'No description available.',
-                    style: context.text.bodyMedium?.copyWith(
-                      height: 1.65,
+                        : context.t.products.noDescriptionAvailable,
+                    maxLines: _descriptionExpanded ? null : 2,
+                    overflow: _descriptionExpanded
+                        ? TextOverflow.visible
+                        : TextOverflow.ellipsis,
+                    style: text.bodyMedium?.copyWith(
+                      height: 1.6,
                       color: colors.onSurfaceVariant,
                     ),
                   ),
 
-                  const SizedBox(height: 30),
+                  if (product.description.length > 90) ...[
+                    const SizedBox(height: 4),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _descriptionExpanded = !_descriptionExpanded;
+                        });
+                      },
+                      child: Text(
+                        _descriptionExpanded
+                            ? context.t.products.hide
+                            : context.t.products.readMore,
+                        style: text.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: colors.secondary,
+                        ),
+                      ),
+                    ),
+                  ],
+
+                  const SizedBox(height: 26),
 
                   // ========================================================
                   // QUANTITY
@@ -179,13 +152,11 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Quantity',
-                        style: context.text.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        context.t.products.quantity,
+                        style: text.titleMedium,
                       ),
 
-                      _QuantitySelector(
+                      QuantitySelector(
                         quantity: quantity,
                         onDecrease: () {
                           if (quantity > 1) {
@@ -205,48 +176,33 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
                     ],
                   ),
 
-                  const SizedBox(height: 26),
+                  const SizedBox(height: 22),
 
-                  // ========================================================
-                  // STOCK
-                  // ========================================================
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: product.stock > 0
-                          ? Colors.green.withValues(alpha: 0.08)
-                          : colors.error.withValues(alpha: 0.08),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          product.stock > 0
-                              ? Icons.check_circle_rounded
-                              : Icons.cancel_rounded,
-                          size: 19,
+                  Row(
+                    children: [
+                      Container(
+                        width: 7,
+                        height: 7,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
                           color: product.stock > 0
                               ? Colors.green
                               : colors.error,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          product.stock > 0
-                              ? '${product.stock} items available'
-                              : 'Out of stock',
-                          style: context.text.bodyMedium?.copyWith(
-                            color: product.stock > 0
-                                ? Colors.green
-                                : colors.error,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        product.stock > 0
+                            ? '${product.stock} items available'
+                            : 'Out of stock',
+                        style: text.bodyMedium?.copyWith(
+                          color: product.stock > 0
+                              ? Colors.green
+                              : colors.error,
+                          fontWeight: FontWeight.w600,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -255,54 +211,45 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
         ),
       ),
 
-      // ============================================================
       // BOTTOM ACTION
-      // ============================================================
       bottomNavigationBar: SafeArea(
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-          decoration: BoxDecoration(
-            color: colors.surface,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.06),
-                blurRadius: 20,
-                offset: const Offset(0, -6),
-              ),
-            ],
-          ),
           child: Row(
             children: [
-              // TOTAL
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total',
-                      style: context.text.bodySmall?.copyWith(
-                        color: colors.onSurfaceVariant,
-                      ),
+              // FAVORITE
+              SizedBox(
+                width: 56,
+                height: 56,
+                child: OutlinedButton(
+                  onPressed: () {
+                    ref
+                        .read(favoritesProvider.notifier)
+                        .toggleFavorite(product.id);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    side: BorderSide(
+                      color: isFav ? colors.secondary : colors.outlineVariant,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${(product.price * quantity).toStringAsFixed(2)}\$',
-                      style: context.text.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ],
+                    shape: const CircleBorder(),
+                  ),
+                  child: Icon(
+                    isFav
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_border_rounded,
+                    size: 20,
+                    color: isFav ? colors.secondary : colors.onSurface,
+                  ),
                 ),
               ),
 
-              const SizedBox(width: 16),
+              const SizedBox(width: 10),
 
               // ADD TO CART
               Expanded(
-                flex: 2,
                 child: SizedBox(
-                  height: 54,
+                  height: 56,
                   child: ElevatedButton(
                     onPressed: product.stock <= 0
                         ? null
@@ -314,26 +261,28 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
                             }
 
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Added to cart'),
+                              SnackBar(
+                                content: Text(context.t.products.addToCart),
                                 behavior: SnackBarBehavior.floating,
                               ),
                             );
                           },
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
+                      backgroundColor: colors.inverseSurface,
+                      foregroundColor: colors.onInverseSurface,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.shopping_bag_outlined, size: 21),
-                        SizedBox(width: 8),
+                        const Icon(Icons.shopping_bag_outlined, size: 20),
+                        const SizedBox(width: 8),
                         Text(
-                          'Add to Cart',
-                          style: TextStyle(fontWeight: FontWeight.w700),
+                          'Add to Cart — \$${(product.price * quantity).toStringAsFixed(2)}',
+                          style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                       ],
                     ),
@@ -343,83 +292,6 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-// ============================================================
-// CIRCLE BUTTON
-// ============================================================
-
-class _CircleButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-
-  const _CircleButton({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colorScheme;
-
-    return Material(
-      color: colors.surfaceContainerHighest,
-      shape: const CircleBorder(),
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onTap,
-        child: SizedBox(
-          width: 40,
-          height: 40,
-          child: Icon(icon, size: 18, color: colors.onSurface),
-        ),
-      ),
-    );
-  }
-}
-
-// ============================================================
-// QUANTITY SELECTOR
-// ============================================================
-
-class _QuantitySelector extends StatelessWidget {
-  final int quantity;
-  final VoidCallback onDecrease;
-  final VoidCallback onIncrease;
-
-  const _QuantitySelector({
-    required this.quantity,
-    required this.onDecrease,
-    required this.onIncrease,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colorScheme;
-
-    return Container(
-      height: 44,
-      decoration: BoxDecoration(
-        color: colors.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(13),
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: onDecrease,
-            icon: const Icon(Icons.remove_rounded, size: 18),
-          ),
-          Text(
-            '$quantity',
-            style: context.text.titleSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          IconButton(
-            onPressed: onIncrease,
-            icon: const Icon(Icons.add_rounded, size: 18),
-          ),
-        ],
       ),
     );
   }

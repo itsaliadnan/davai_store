@@ -1,7 +1,8 @@
 import 'package:davai_store/core/theme/spacing.dart';
+import 'package:davai_store/core/utils/app_snackbar.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_provider.dart';
 import 'package:davai_store/features/auth/presentation/view/components/otp_field.dart';
-import 'package:davai_store/features/widgets/custom_button.dart';
+import 'package:davai_store/core/widgets/custom_button.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +47,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                   ],
                 ),
                 Lottie.asset('assets/lottie/otp.json'),
-
                 const SizedBox(height: AppSpacing.xl),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -80,20 +80,19 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                           .read(userApiProvider)
                           .verifyResetOtp(widget.email, otp);
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('OTP verified')),
-                      );
+                      if (!context.mounted) return;
 
                       context.push(
                         '/new-password',
-                        extra: {'email': widget.email, 'otp': otp},
+                        extra: {
+                          context.t.auth.email: widget.email,
+                          context.t.auth.otp: otp,
+                        },
                       );
                     } catch (e) {
-                      print('OTP ERROR: $e');
+                      if (!context.mounted) return;
 
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(SnackBar(content: Text(e.toString())));
+                      AppSnackBar.error(context, e.toString());
                     }
                   },
                 ),

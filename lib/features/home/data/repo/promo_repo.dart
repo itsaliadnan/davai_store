@@ -12,11 +12,6 @@ class PromoRepository {
         queryParameters: {'is_active': 'eq.true', 'order': 'priority.desc'},
       );
 
-      print('STATUS CODE: ${response.statusCode}');
-      print('TYPE: ${response.data.runtimeType}');
-      print('RESPONSE DATA: ${response.data}');
-
-      // 👇 مهم جداً
       if (response.data is! List) {
         throw Exception('Response is not List');
       }
@@ -24,9 +19,8 @@ class PromoRepository {
       final List data = response.data;
 
       return data.map((e) => PromoModel.fromJson(e)).toList();
-    } catch (e, stack) {
-      print('❌ ERROR IN getPromos: $e');
-      print(stack);
+    } catch (e) {
+
       rethrow;
     }
   }

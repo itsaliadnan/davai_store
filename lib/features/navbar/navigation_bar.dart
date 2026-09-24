@@ -1,62 +1,48 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
+import 'package:davai_store/features/cart/data/controller/cart_controller.dart';
+import 'package:davai_store/features/favorite/controller/favorite_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LuxeNavItem {
   final IconData icon;
   final IconData iconFilled;
-  final String label;
-  final int? badgeCount;
 
-  const LuxeNavItem({
-    required this.icon,
-    required this.iconFilled,
-    required this.label,
-    this.badgeCount,
-  });
+  const LuxeNavItem({required this.icon, required this.iconFilled});
 }
 
-class LuxeBottomNavBar extends StatelessWidget {
+class LuxeBottomNavBar extends ConsumerWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
-  final int? cartBadgeCount;
 
   const LuxeBottomNavBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
-    this.cartBadgeCount,
   });
 
   static const List<LuxeNavItem> _items = [
-    LuxeNavItem(
-      icon: Icons.home_outlined,
-      iconFilled: Icons.home_rounded,
-      label: 'Home',
-    ),
-    LuxeNavItem(
-      icon: Icons.search_outlined,
-      iconFilled: Icons.search_rounded,
-      label: 'Search',
-    ),
+    LuxeNavItem(icon: Icons.home_outlined, iconFilled: Icons.home_rounded),
+    LuxeNavItem(icon: Icons.search_outlined, iconFilled: Icons.search_rounded),
     LuxeNavItem(
       icon: Icons.favorite_border_rounded,
       iconFilled: Icons.favorite_rounded,
-      label: 'Saved',
     ),
     LuxeNavItem(
       icon: Icons.shopping_bag_outlined,
       iconFilled: Icons.shopping_bag_rounded,
-      label: 'Cart',
     ),
     LuxeNavItem(
       icon: Icons.person_outline_rounded,
       iconFilled: Icons.person_rounded,
-      label: 'Profile',
     ),
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartCount = ref.watch(cartProvider).length;
+    final favoritesCount = ref.watch(favoritesProvider).length;
+
     return SafeArea(
       top: false,
       child: Padding(
@@ -66,7 +52,12 @@ class LuxeBottomNavBar extends StatelessWidget {
           children: List.generate(_items.length, (index) {
             final item = _items[index];
 
-            final badge = index == 3 ? cartBadgeCount : item.badgeCount;
+            int? badge;
+            if (index == 2) {
+              badge = favoritesCount > 0 ? favoritesCount : null;
+            } else if (index == 3) {
+              badge = cartCount > 0 ? cartCount : null;
+            }
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -154,33 +145,28 @@ class _LuxeNavTileState extends State<_LuxeNavTile>
             width: 54,
             height: 54,
             decoration: BoxDecoration(
-              // كل عنصر له خلفيته الخاصة
-              color: Colors.white,
-
+              color: context.colorScheme.onPrimary,
               borderRadius: BorderRadius.circular(16),
-
-              // تمييز بسيط للعنصر النشط
               border: active
                   ? Border.all(
                       color: colors.primary.withValues(alpha: 0.35),
                       width: 1.5,
                     )
                   : null,
-
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: active ? 0.14 : 0.08),
+                  color: context.colorScheme.onSurface.withValues(
+                    alpha: active ? 0.14 : 0.08,
+                  ),
                   blurRadius: active ? 14 : 10,
                   offset: const Offset(0, 5),
                 ),
               ],
             ),
-
             child: Stack(
               alignment: Alignment.center,
               clipBehavior: Clip.none,
               children: [
-                // ICON
                 AnimatedScale(
                   scale: active ? 1.08 : 1.0,
                   duration: const Duration(milliseconds: 200),
@@ -188,11 +174,9 @@ class _LuxeNavTileState extends State<_LuxeNavTile>
                   child: Icon(
                     active ? widget.item.iconFilled : widget.item.icon,
                     size: 25,
-                    color: active ? colors.primary : colors.onSurfaceVariant,
+                    color: active ? colors.secondary : colors.onSurfaceVariant,
                   ),
                 ),
-
-                // BADGE
                 if (widget.badge != null)
                   Positioned(
                     top: 7,
@@ -217,31 +201,24 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDot = count == 0;
-
     return Container(
       constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
-      padding: isDot
-          ? EdgeInsets.zero
-          : const EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       decoration: BoxDecoration(
         color: context.colorScheme.error,
         borderRadius: BorderRadius.circular(10),
-
-        border: Border.all(color: Colors.white, width: 2),
+        border: Border.all(color: context.colorScheme.onPrimary, width: 2),
       ),
-      child: isDot
-          ? const SizedBox(width: 6, height: 6)
-          : Text(
-              count > 99 ? '99+' : '$count',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 8,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-                height: 1.3,
-              ),
-            ),
+      child: Text(
+        count > 99 ? '99+' : '$count',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 8,
+          fontWeight: FontWeight.w700,
+          color: context.colorScheme.onPrimary,
+          height: 1.3,
+        ),
+      ),
     );
   }
 }

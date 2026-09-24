@@ -23,8 +23,7 @@ class UserRepo {
   // =========================
   // Login
   // =========================
-
-  Future login(String email, String password) async {
+  Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await functionsDio.post(
       ApiEndpoints.login,
       data: {'email': email, 'password': password},
@@ -34,9 +33,36 @@ class UserRepo {
         ? jsonDecode(response.data)
         : response.data;
 
-    return UserModel.fromJson(data['user']);
-  }
+    final session = data['session'];
 
+    if (session == null) {
+      throw Exception('Session was not returned');
+    }
+
+    final sessionToken = session['token']?.toString();
+
+    final expiresAtString = session['expiresAt']?.toString();
+
+    if (sessionToken == null || sessionToken.isEmpty) {
+      throw Exception('Session token was not returned');
+    }
+
+    if (expiresAtString == null || expiresAtString.isEmpty) {
+      throw Exception('Session expiration was not returned');
+    }
+
+    final expiresAt = DateTime.tryParse(expiresAtString);
+
+    if (expiresAt == null) {
+      throw Exception('Invalid session expiration');
+    }
+
+    return {
+      'user': UserModel.fromJson(data['user']),
+      'sessionToken': sessionToken,
+      'expiresAt': expiresAt,
+    };
+  }
   // =========================
   // Get Users
   // =========================
@@ -127,15 +153,6 @@ class UserRepo {
   // =========================
   // Upload Profile Image
   // =========================
-  //
-  // Flutter
-  //    ↓
-  // Edge Function
-  //    ↓
-  // Storage / avatars
-  //    ↓
-  // Public URL
-  //
 
   Future<String> uploadProfileImage({
     required File file,
@@ -167,10 +184,6 @@ class UserRepo {
   // =========================
   // Update Profile
   // =========================
-  //
-  // هنا REST فقط.
-  // لا توجد صورة هنا.
-  //
 
   Future<UserModel> updateProfile({
     required int userId,
