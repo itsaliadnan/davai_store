@@ -1,5 +1,6 @@
 import 'package:davai_store/core/network/api_exception.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   final Dio restDio;
@@ -27,6 +28,10 @@ class DioClient {
           receiveTimeout: const Duration(seconds: 10),
         ),
       ) {
+    // ============================================================
+    // Logging
+    // ============================================================
+
     final logInterceptor = LogInterceptor(
       requestBody: true,
       responseBody: true,
@@ -34,6 +39,36 @@ class DioClient {
 
     restDio.interceptors.add(logInterceptor);
     functionsDio.interceptors.add(logInterceptor);
+
+    // ============================================================
+    // Mobile Session Token
+    // functionsDio
+    // ============================================================
+
+    final authInterceptor = InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        final isLoginRequest =
+            options.path.endsWith('/login') || options.path == 'login';
+
+        if (!isLoginRequest) {
+          final prefs = await SharedPreferences.getInstance();
+
+          final sessionToken = prefs.getString('sessionToken');
+
+          if (sessionToken != null && sessionToken.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $sessionToken';
+          }
+        }
+
+        handler.next(options);
+      },
+    );
+
+    functionsDio.interceptors.add(authInterceptor);
+
+    // ============================================================
+    // Error Handling
+    // ============================================================
 
     final errorInterceptor = InterceptorsWrapper(
       onError: (e, handler) {
