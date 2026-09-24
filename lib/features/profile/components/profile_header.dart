@@ -1,7 +1,8 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
+import 'package:davai_store/features/profile/provider/profile_provider.dart';
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../controller/profile_provider.dart';
 import 'edit_name_dialog.dart';
 
 class ProfileHeader extends ConsumerWidget {
@@ -27,12 +28,12 @@ class ProfileHeader extends ConsumerWidget {
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: theme.dividerColor.withValues(alpha: 0.08)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: context.colorScheme.onSurface.withValues(alpha: 0.04),
             blurRadius: 14,
             offset: const Offset(0, 5),
           ),
@@ -48,13 +49,13 @@ class ProfileHeader extends ConsumerWidget {
               children: [
                 CircleAvatar(
                   radius: 38,
-                  backgroundColor: colorScheme.primary.withValues(alpha: 0.12),
+                  backgroundColor: colorScheme.primary,
                   backgroundImage: imageProvider,
                   child: imageProvider == null
                       ? Icon(
                           Icons.person_rounded,
                           size: 38,
-                          color: colorScheme.primary,
+                          color: colorScheme.onPrimaryContainer,
                         )
                       : null,
                 ),
@@ -68,12 +69,12 @@ class ProfileHeader extends ConsumerWidget {
                     decoration: BoxDecoration(
                       color: colorScheme.primary,
                       shape: BoxShape.circle,
-                      border: Border.all(color: colorScheme.surface, width: 2),
+                      border: Border.all(color: colorScheme.primary, width: 2),
                     ),
                     child: Icon(
                       Icons.camera_alt_rounded,
                       size: 14,
-                      color: colorScheme.onPrimary,
+                      color: colorScheme.onPrimaryContainer,
                     ),
                   ),
                 ),
@@ -115,7 +116,7 @@ class ProfileHeader extends ConsumerWidget {
           const SizedBox(width: 8),
 
           IconButton(
-            tooltip: 'Edit name',
+            tooltip: context.t.profile.editName,
             onPressed: () {
               showDialog(
                 context: context,
@@ -125,13 +126,11 @@ class ProfileHeader extends ConsumerWidget {
                 ),
               );
             },
-            style: IconButton.styleFrom(
-              backgroundColor: colorScheme.primary.withValues(alpha: 0.10),
-            ),
+
             icon: Icon(
               Icons.edit_rounded,
               size: 19,
-              color: colorScheme.primary,
+              color: colorScheme.onPrimaryContainer,
             ),
           ),
         ],

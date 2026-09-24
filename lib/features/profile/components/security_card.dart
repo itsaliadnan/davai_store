@@ -4,9 +4,10 @@ import 'package:davai_store/features/profile/components/settings_item.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class AccountCard extends ConsumerWidget {
-  const AccountCard({super.key});
+class SecurityCard extends ConsumerWidget {
+  const SecurityCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,18 +16,26 @@ class AccountCard extends ConsumerWidget {
       children: [
         const SizedBox(height: 8),
 
-        SectionTitle(title: context.t.profile.account),
+        //SECURITY
+        SectionTitle(title: context.t.profile.security),
+
+        const SizedBox(height: 12),
 
         SettingsCard(
           items: [
             SettingItem(
-              icon: Icons.person,
-              title: context.t.profile.myAccount,
-              subtitle: context.t.profile.editProfile,
-              onTap: () {},
+              icon: Icons.password,
+              title: context.t.profile.changePassword,
+              subtitle: context.t.profile.secureYourAccount,
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                context.push('/change-password');
+              },
             ),
           ],
         ),
+
+        const SizedBox(height: 8),
       ],
     );
   }

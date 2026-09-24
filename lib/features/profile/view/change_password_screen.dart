@@ -1,11 +1,12 @@
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_session_provider.dart';
-import 'package:davai_store/features/profile/view/provider/change_password_provider.dart';
-import 'package:davai_store/features/widgets/custom_button.dart';
-import 'package:davai_store/features/widgets/text_field.dart';
+import 'package:davai_store/features/profile/provider/change_password_provider.dart';
+import 'package:davai_store/core/widgets/custom_button.dart';
+import 'package:davai_store/core/widgets/text_field.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -32,20 +33,20 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     if (currentController.text.isEmpty ||
         newController.text.isEmpty ||
         confirmController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Fill all fields')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.t.changePassword.pleaseFillAllFields)),
+      );
       return;
     }
 
     if (newController.text != confirmController.text) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.t.changePassword.passwordsDoNotMatch)),
+      );
       return;
     }
 
-    ref
+    await ref
         .read(changePasswordControllerProvider.notifier)
         .changePassword(
           currentPassword: currentController.text.trim(),
@@ -57,19 +58,24 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(changePasswordControllerProvider);
 
-    // listener (نجاح / خطأ)
     ref.listen(changePasswordControllerProvider, (prev, next) {
       next.whenOrNull(
-        data: (_) async {
+        data: (success) async {
+          if (success != true) return;
+
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Password changed successfully')),
+            SnackBar(
+              content: Text(
+                context.t.changePassword.passwordChangedSuccessfully,
+              ),
+            ),
           );
 
-          // logout
           await ref.read(userSessionControllerProvider.notifier).logout();
 
-          // تحويل للوغن
-          Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+          if (!mounted) return;
+
+          context.go('/login');
         },
         error: (err, _) {
           ScaffoldMessenger.of(

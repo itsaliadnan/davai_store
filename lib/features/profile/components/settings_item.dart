@@ -27,10 +27,14 @@ class SettingItem extends StatelessWidget {
         width: 42,
         height: 42,
         decoration: BoxDecoration(
-          color: colorScheme.primary.withValues(alpha: 0.10),
+          color: colorScheme.primary,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Icon(icon, size: 21, color: colorScheme.primary),
+        child: Icon(
+          icon,
+          size: 21,
+          color: colorScheme.onSurfaceVariant.withValues(alpha: 0.65),
+        ),
       ),
       title: Text(
         title,

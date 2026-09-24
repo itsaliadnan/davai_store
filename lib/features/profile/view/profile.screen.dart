@@ -1,8 +1,10 @@
+import 'package:davai_store/core/widgets/hold_to_logout.dart';
 import 'package:davai_store/features/profile/components/account_card.dart';
 import 'package:davai_store/features/profile/components/more_card.dart';
-import 'package:davai_store/features/profile/components/more_section.dart';
+import 'package:davai_store/features/profile/components/prefrences_card.dart';
 import 'package:davai_store/features/profile/components/profile_header.dart';
-import 'package:davai_store/features/profile/controller/profile_provider.dart';
+import 'package:davai_store/features/profile/components/security_card.dart';
+import 'package:davai_store/features/profile/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,19 +29,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverToBoxAdapter(child: ProfileHeader()),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ProfileHeader(),
+              AccountCard(),
+              PreferencesCard(),
+              SecurityCard(),
+              MoreCard(),
+              const SizedBox(height: 16),
 
-            SliverToBoxAdapter(child: AccountCard()),
-
-            SliverToBoxAdapter(child: MoreSectionTitle()),
-
-            SliverToBoxAdapter(child: MoreCard()),
-
-            const SliverToBoxAdapter(child: SizedBox(height: 100)),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: HoldToLogout(),
+              ),
+              const SizedBox(height: 120),
+            ],
+          ),
         ),
       ),
     );

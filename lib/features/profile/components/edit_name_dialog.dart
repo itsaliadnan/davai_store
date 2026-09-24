@@ -1,3 +1,4 @@
+import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 
 class EditNameDialog extends StatelessWidget {
@@ -15,22 +16,22 @@ class EditNameDialog extends StatelessWidget {
     final controller = TextEditingController(text: initialName);
 
     return AlertDialog(
-      title: const Text("Edit Name"),
+      title: Text(context.t.profile.editName),
       content: TextField(
         controller: controller,
-        decoration: const InputDecoration(hintText: "Enter name"),
+        decoration: InputDecoration(hintText: context.t.profile.enterName),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text("Cancel"),
+          child: Text(context.t.profile.cancel),
         ),
         ElevatedButton(
           onPressed: () {
             onSave(controller.text);
             Navigator.pop(context);
           },
-          child: const Text("Save"),
+          child: Text(context.t.profile.save),
         ),
       ],
     );
