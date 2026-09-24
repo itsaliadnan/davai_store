@@ -7,6 +7,10 @@ extension AppThemeContext on BuildContext {
 
   TextTheme get text => theme.textTheme;
 
+  Color get success => const Color(0xFF81C784);
+
+  Color get warning => const Color(0xFFF2C94C);
+
   bool get isDark => theme.brightness == Brightness.dark;
 
   bool get isLight => !isDark;

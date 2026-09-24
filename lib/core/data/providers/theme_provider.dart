@@ -18,14 +18,24 @@ class ThemeController extends StateNotifier<ThemeMode> {
     state = await service.getInitialTheme();
   }
 
-  Future<void> toggle() async {
-    state = state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
-
-    await service.saveTheme(state);
-  }
-
   Future<void> setTheme(ThemeMode mode) async {
     state = mode;
     await service.saveTheme(mode);
+  }
+
+  Future<void> toggle() async {
+    switch (state) {
+      case ThemeMode.light:
+        await setTheme(ThemeMode.dark);
+        break;
+
+      case ThemeMode.dark:
+        await setTheme(ThemeMode.system);
+        break;
+
+      case ThemeMode.system:
+        await setTheme(ThemeMode.light);
+        break;
+    }
   }
 }
