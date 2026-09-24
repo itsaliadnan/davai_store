@@ -1,20 +1,25 @@
-import 'package:davai_store/core/model/product_model.dart';
+import 'package:davai_store/features/products/data/model/product_model.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_session_provider.dart';
-import 'package:davai_store/features/auth/presentation/view/create_newPassword_screen.dart';
+import 'package:davai_store/features/auth/presentation/view/create_new_password_screen.dart';
 import 'package:davai_store/features/auth/presentation/view/forgot_password_screen.dart';
 import 'package:davai_store/features/auth/presentation/view/login_screen.dart';
 import 'package:davai_store/features/auth/presentation/view/otp_screen.dart';
 import 'package:davai_store/features/auth/presentation/view/signup_screen.dart';
 import 'package:davai_store/features/cart/presentation/view/cart_screen.dart';
 import 'package:davai_store/features/favorite/view/favorite_screen.dart';
+import 'package:davai_store/features/home/presentation/components/story_screen.dart';
 import 'package:davai_store/features/home/presentation/view/home_screen.dart';
-import 'package:davai_store/features/home/presentation/view/notifications_screen.dart';
+import 'package:davai_store/features/notifications/presentation/view/notifications_screen.dart';
 import 'package:davai_store/features/navbar/main_screen.dart';
 import 'package:davai_store/features/product_details/presentation/view/product_details.dart';
-import 'package:davai_store/features/products_category/view/products_category_screen.dart';
+import 'package:davai_store/features/products/presentation/view/product_screen.dart';
+import 'package:davai_store/features/products_category/presentation/view/products_category_screen.dart';
+import 'package:davai_store/features/profile/view/about_screen.dart';
 import 'package:davai_store/features/profile/view/change_password_screen.dart';
+import 'package:davai_store/features/profile/view/help_support_screen.dart';
 import 'package:davai_store/features/profile/view/profile.screen.dart';
 import 'package:davai_store/features/search/presentation/view/search_screen.dart';
+import 'package:davai_store/features/spalash/presentation/splash_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,9 +27,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   final session = ref.watch(userSessionControllerProvider);
 
   return GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/splash',
 
     routes: [
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(
         path: '/register',
         builder: (context, state) => const SignUpScreen(),
@@ -55,7 +64,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
-      // 🔥 الناف بار (لا يتغير)
       ShellRoute(
         builder: (context, state, child) {
           return MainScreen(child: child);
@@ -81,6 +89,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
+        path: '/story',
+        builder: (context, state) =>
+            StoryViewerScreen(images: state.extra as List<String>),
+      ),
+      GoRoute(
         path: '/notifications',
         builder: (context, state) => const NotificationsScreen(),
       ),
@@ -93,12 +106,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/products-category-screen',
         builder: (context, state) => ProductsCategoryScreen(),
       ),
+      GoRoute(path: '/about', builder: (context, state) => const AboutScreen()),
+      GoRoute(
+        path: '/help-support',
+        builder: (context, state) => HelpSupportScreen(),
+      ),
+      GoRoute(
+        path: '/all-product',
+        builder: (context, state) => AllProductsScreen(),
+      ),
     ],
 
-    //الحماية
     redirect: (context, state) {
       final isLoggedIn = session != null;
 
+      final isGoingToSplash = state.matchedLocation == '/splash';
       final isGoingToLogin = state.matchedLocation == '/login';
       final isGoingToRegister = state.matchedLocation == '/register';
       final isGoingToForgotPassword =
@@ -106,7 +128,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final isGoingToOtp = state.matchedLocation == '/otp-screen';
       final isGoingToNewPassword = state.matchedLocation == '/new-password';
 
-      // غير مسجل → امنع الدخول
+      if (isGoingToSplash) return null;
+
       if (!isLoggedIn &&
           !isGoingToLogin &&
           !isGoingToRegister &&
@@ -116,7 +139,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         return '/login';
       }
 
-      //  مسجل → امنع الرجوع
       if (isLoggedIn &&
           (isGoingToLogin || isGoingToRegister || isGoingToForgotPassword)) {
         return '/home';
