@@ -1,10 +1,8 @@
 {
     "home": {
         "davaiStore": "Davai Store",
-        "searchProduct": "Search Product",
         "products": "Products",
         "categories": "Categories",
-        "noProductsFound": "No products found",
         "allProducts": "All Products",
         "bestSellers": "Best Sellers",
         "newArrivals": "New Arrivals",
@@ -13,7 +11,28 @@
         "hats": "Hats",
         "watches": "Watches",
         "showAll": "Show All",
-        "notifications": " Notifications"
+        "notifications": " Notifications",
+        "shopNow": "Shop Now",
+        "newCollection":"New Collection",
+        "discounts":"Discounts",
+        "noImagesToDisplay" : "No images to display",
+        "all" : "All",
+        "unread" : "unread",
+        "noNotifications" : "No notifications",
+        "yourNewNotificationsWillAppearHere" : "Your new notifications will appear here",
+        "unableToLoadNotifications" : "Unable to load notifications",
+        "retry" : "Retry",
+        "anErrorOccurred" : "An error occurred"
+    },
+
+      "searchBar":{
+        "searchProduct": " Search for a product"
+
+    },
+       "erorrs":{
+        "noProductsFound":"No Products Found",
+                "tryAgain": "Try Again"
+
     },
     "auth": {
         "davaiStore": "Davai Store",
@@ -46,7 +65,13 @@
         "firstName":"First Name",
         "familyName":"Famaily Name",
         "email":"Email",
-        "password":"Password"
+        "password":"Password",
+        "otpVerified": "OTP verified",
+        "otp":" otp ",
+        "fillAllFields": "Fill all fields",
+        "passwordsDoNotMatch" : "Passwords do not match",
+        "passwordUpdatedSuccessfully" : "Password updated successfully",
+        "otpSentToYourEmail" : "OTP sent to your email"
 
         
     },
@@ -103,8 +128,25 @@
         "invalidCurrentPassword": "Invalid current password",
         "passwordRequirements": "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
         "forgotPassword": "Forgot Password?",
-        "resetPassword": "Reset Password"
-    },
+        "resetPassword": "Reset Password",
+        "holdToLogout" : "Hold to Logout",
+        "keepHolding" : "Keep Holding",
+        "emailHasBeenCopied" : "'Email has been copied",
+        "needHelp" : "Need help?",
+        "contactUsAndWeWillGetBackToYou" : "Contact us, and we will get back to you as soon as possible",
+        "davaiAbout" : "Davai is a shopping platform for discovering lighting, decor, gifts, and more",
+        "aboutDavaiTitle" : "About Davai",
+        "yourHomeYourStyle" : "Your home, your style", 
+        "davai" : "Davai",
+        "rateTheApp" : "Rate the App", 
+        "support" : "Support",
+        "editName" : "Edit Name",
+        "enterName" : "Enter name",
+        "cancel" : "Cancel",
+        "save" : "Save",
+        "chooseLanguage" : "Choose Language",
+        "search" : "Search"
+        },
     "changePassword": {
         "changePassword": "Change Password",
         "forgotPassword": "Forgot Password",
@@ -136,5 +178,31 @@
 
 
 
+    },
+    "products": {
+       "addToCart" : "Add to cart",
+       "newest" : " Newest",
+       "priceLowtoHigh" : "Price: Low to High",
+       "priceHightoLow" : "Price: High to Low",
+       "mostPopular" : "Most Popular",
+       "sortBy" : "Sort by",
+       "noProducts" : "No products" ,
+       "allProducts" : "All Products",
+       "description" : "Description",
+       "noDescriptionAvailable" : "No description available.",
+         "hide": "Hide",
+  "readMore": "Read more" ,
+  "quantity" : "Quantity",
+  "cart" : "Cart",
+  "noFavoritesYet" : "No favorites yet",
+  "favorites" : "Favorites",
+  "products" : "Products" 
+ 
+    },
+    "category" : {
+        "browseBy" : "Browse by",
+        "category" : "Category",
+        "noCategories" : "No categories",
+        "mostProducts" : "Most products"
     }
 }

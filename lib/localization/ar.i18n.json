@@ -1,10 +1,8 @@
 {
     "home": {
         "davaiStore": "متجر دافاي",
-        "searchProduct": "ابحث عن منتج",
         "products": "المنتجات",
         "categories": "الفئات",
-        "noProductsFound": "لم يتم العثور على منتجات",
         "allProducts": "جميع المنتجات",
         "bestSellers": "الأكثر مبيعًا",
         "newArrivals": "الوافدون الجدد",
@@ -13,7 +11,34 @@
         "hats": "قبعات",
         "watches": "ساعات",
         "showAll": "عرض الجميع",
-        "notifications": " الإشعارات"
+        "notifications": " الإشعارات",
+        "shopNow":"تسوق الان",
+        "newCollection":"تشكيلات جديدة",
+        "discounts":"خصومات",
+        "noImagesToDisplay" : "لا توجد صور لعرضها",
+        "all" : "الكل",
+        "unread" : "غير المقروءة",
+        "noNotifications" : "لا يوجد اشعارات",
+        "yourNewNotificationsWillAppearHere" : " ستظهر إشعاراتك الجديدة هنا",
+        "unableToLoadNotifications" : "تعذر تحميل الإشعارات",
+        "retry" : "إعادة المحاولة",
+        "anErrorOccurred" : "حدث خطأ"
+
+
+
+
+
+
+
+    },
+
+    "searchBar":{
+        "searchProduct": "ابحث عن منتج"
+
+    },
+    "erorrs":{
+        "noProductsFound":"لم يتم العثور على منتجات",
+        "tryAgain": "حاول مجددا"
     },
     "auth": {
         "davaiStore": "Davai Store",
@@ -46,7 +71,13 @@
         "firstName":"الاسم الاول",
         "familyName":"اسم العائلة",
         "email":"البريد الإلكتروني",
-        "password":"كلمة المرور"
+        "password":"كلمة المرور",
+        "otpVerified": "تم التحقق من OTP",
+        "otp":" otp ",
+        "fillAllFields": "املأ جميع الحقول",
+        "passwordsDoNotMatch" : "كلمتا المرور غير متطابقتين",
+        "passwordUpdatedSuccessfully" : "تم تحديث كلمة المرور بنجاح",
+        "otpSentToYourEmail" : "تم ارسال رمز التحقق الى بريدك الالكتروني"
 
     },
     "orders": {
@@ -102,7 +133,30 @@
         "invalidCurrentPassword": "كلمة المرور الحالية غير صحيحة",
         "passwordRequirements": "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، بما في ذلك حرف كبير وحرف صغير ورقم ورمز خاص",
         "forgotPassword": "نسيت كلمة المرور؟",
-        "resetPassword": "إعادة تعيين كلمة المرور"
+        "resetPassword": "إعادة تعيين كلمة المرور",
+        "holdToLogout" : "اضغط  باستمرار لتسجيل الخروج",
+        "keepHolding" : "استمر في الضغط",
+        "emailHasBeenCopied" : "تم نسخ الإيميل",
+        "needHelp" : "تحتاج مساعدة ؟",
+        "contactUsAndWeWillGetBackToYou" : "راسلنا وسوف نرد عليك بأقرب وقت",
+        "davaiAbout" : " Davai هي منصة تسوق لاكتشاف منتجات الإضاءة والديكور والهدايا وغيرها",
+        "aboutDavaiTitle" : "نبذة عن  Davai",
+        "yourHomeYourStyle" : "منزلك، أسلوبك",
+        "davai" : "Davai",
+        "rateTheApp" : " قيم التطبيق", 
+        "support" : "الدعم",
+        "editName" : "تعديل الاسم",
+        "enterName" : "أدخل الاسم",
+        "cancel" : "إلغاء",
+        "save" : "حفظ",
+        "chooseLanguage" : "اختر اللغة",
+        "search" : "البحث"
+
+
+
+
+
+
     },
     "changePassword": {
         "changePassword": "تغيير كلمة المرور",
@@ -132,5 +186,33 @@
         "newPasswordHint":"يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمة المرور المستخدمة سابقاً",
         "save":" حفظ"
 
+    },
+
+        "products": {
+        "addToCart" : "اضف الى السلة",
+        "newest" : " الاحدث",
+        "priceLowtoHigh" : "السعر: من الأقل إلى الأعلى",
+        "priceHightoLow" : "السعر: من الأقل إلى الأعلى",
+        "mostPopular" : "الأكثر شعبية",
+        "sortBy" : "ترتيب حسب",
+        "noProducts" : "لا توجد منتجات",
+        "allProducts" : "جميع المنتجات",
+        "description" : "الوصف", 
+        "noDescriptionAvailable" : "لا يوجد وصف متاح",
+        "hide": "إخفاء",
+        "readMore": "قراءة المزيد",
+        "quantity" : " الكمية",
+        "cart" : " السلة",
+        "noFavoritesYet" : "لا توجد منتجات مفضلة حتى الآن",
+        "favorites" : "المفضلة",
+        "products" : "المنتجات" 
+
+    },
+        "category" : {
+        "browseBy" : "تصفح حسب",
+        "category" : "الفئة",
+        "noCategories" : " لا يوجد فئات",
+        "mostProducts" : " الاكثر منتجات"
     }
+
 }
