@@ -40,7 +40,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               children: [
                 Text(
                   context.t.auth.loginTitle,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: context.text.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
 
                 Lottie.asset(
@@ -76,7 +78,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   width: 140,
                 ),
 
-                SizedBox(height: 80),
+                const SizedBox(height: 80),
                 Column(
                   children: [
                     TextButton(
@@ -90,8 +92,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       },
                       child: Text(
                         context.t.auth.forgetPassword,
-                        style: TextStyle(
-                          fontSize: 14,
+                        style: context.text.bodyMedium?.copyWith(
                           color: context.colorScheme.inversePrimary,
                           fontWeight: FontWeight.w600,
                         ),
@@ -103,12 +104,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       children: [
                         Text(
                           context.t.auth.dontHaveAnAccount,
-                          style: TextStyle(
-                            fontSize: 12,
+                          style: context.text.bodySmall?.copyWith(
                             fontWeight: FontWeight.w300,
                           ),
                         ),
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         TextButton(
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
@@ -120,8 +120,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           },
                           child: Text(
                             context.t.auth.signUp,
-                            style: TextStyle(
-                              fontSize: 14,
+                            style: context.text.bodyMedium?.copyWith(
                               color: context.colorScheme.inversePrimary,
                               fontWeight: FontWeight.w600,
                             ),

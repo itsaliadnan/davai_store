@@ -1,3 +1,4 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_provider.dart';
 import 'package:davai_store/core/widgets/custom_button.dart';
@@ -41,11 +42,15 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               children: [
                 Text(
                   context.t.auth.signUp,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: context.text.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   context.t.auth.toYourAccount,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: context.text.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Lottie.asset(
                   'assets/lottie/signup.json',
@@ -115,11 +120,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                         phone,
                       );
 
+                      if (!context.mounted) return;
                       //نجاح
                       context.push('/home');
                     } catch (e) {
                       debugPrint(e.toString());
 
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(
                         context,
                       ).showSnackBar(SnackBar(content: Text(e.toString())));
@@ -131,12 +138,21 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(context.t.auth.alreadyHaveAnAccount),
+                    Text(
+                      context.t.auth.alreadyHaveAnAccount,
+                      style: context.text.bodyMedium,
+                    ),
                     TextButton(
                       onPressed: () {
                         context.push('/login');
                       },
-                      child: Text(context.t.auth.login),
+                      child: Text(
+                        context.t.auth.login,
+                        style: context.text.bodyMedium?.copyWith(
+                          color: context.colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ],
                 ),

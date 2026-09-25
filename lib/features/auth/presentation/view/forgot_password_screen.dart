@@ -1,3 +1,4 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/core/utils/app_snackbar.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_provider.dart';
@@ -41,30 +42,26 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                       onPressed: context.pop,
                       icon: const Icon(Icons.arrow_back),
                     ),
-                    SizedBox(width: 22),
+                    const SizedBox(width: 22),
                     Text(
                       context.t.changePassword.forgotPassword,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: context.text.titleLarge,
                     ),
                   ],
                 ),
                 Lottie.asset('assets/lottie/passwordLost.json'),
-                SizedBox(height: AppSpacing.xl),
+                const SizedBox(height: AppSpacing.xl),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     context.t.changePassword.forgotPasswordHint,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: context.text.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-                SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.md),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomTextField(
@@ -74,7 +71,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     prefixIcon: Icons.email,
                   ),
                 ),
-                SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.md),
                 CustomButton(
                   width: 120,
                   text: context.t.changePassword.send,

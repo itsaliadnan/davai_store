@@ -12,7 +12,10 @@ class OtpField extends StatelessWidget {
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 60,
-      textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      textStyle: context.text.titleLarge?.copyWith(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+      ),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
         borderRadius: BorderRadius.circular(14),

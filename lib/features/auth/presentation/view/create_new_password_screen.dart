@@ -1,3 +1,4 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/core/utils/app_snackbar.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_provider.dart';
@@ -47,17 +48,16 @@ class _CreateNewpasswordScreenState
               children: [
                 Text(
                   context.t.newPassword.newPassword,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: context.text.titleLarge,
                 ),
                 Lottie.asset('assets/lottie/EnterPassword.json'),
-                SizedBox(height: AppSpacing.xl),
+                const SizedBox(height: AppSpacing.xl),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     context.t.newPassword.newPasswordHint,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: context.text.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
                   ),

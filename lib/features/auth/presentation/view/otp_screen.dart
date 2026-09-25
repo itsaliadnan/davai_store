@@ -1,3 +1,4 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/core/utils/app_snackbar.dart';
 import 'package:davai_store/features/auth/presentation/providers/user_provider.dart';
@@ -39,10 +40,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                     const SizedBox(width: 22),
                     Text(
                       context.t.otp.verifyEmail,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: context.text.titleLarge,
                     ),
                   ],
                 ),
@@ -53,8 +51,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                   child: Text(
                     context.t.otp.otpHint,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: context.text.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
