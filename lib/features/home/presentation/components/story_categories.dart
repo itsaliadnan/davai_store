@@ -71,6 +71,9 @@ class _StoryCategoriesState extends ConsumerState<StoryCategories> {
         SnackBar(
           content: Text(
             'لا يوجد إضافات جديدة بفئة "${category.name}" هالأسبوع',
+            style: context.text.bodyMedium?.copyWith(
+              color: context.colorScheme.onInverseSurface,
+            ),
           ),
         ),
       );
@@ -122,7 +125,7 @@ class _StoryCategoriesState extends ConsumerState<StoryCategories> {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                 itemCount: activeCategories.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 14),
+                separatorBuilder: (_, _) => const SizedBox(width: 14),
                 itemBuilder: (context, index) {
                   final category = activeCategories[index];
                   final unviewed = !_viewed.contains(category.id);
@@ -160,7 +163,7 @@ class _StoryCategoriesState extends ConsumerState<StoryCategories> {
                                     ? Image.network(
                                         category.image,
                                         fit: BoxFit.cover,
-                                        errorBuilder: (_, __, ___) => Icon(
+                                        errorBuilder: (_, _, _) => Icon(
                                           Icons.category_outlined,
                                           size: 20,
                                           color: colors.onSurfaceVariant,

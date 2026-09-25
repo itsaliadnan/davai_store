@@ -63,8 +63,7 @@ class PromoCard extends StatelessWidget {
                     promo.title.toUpperCase(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: context.text.labelSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       letterSpacing: 1.2,
                       color: context.colorScheme.onPrimary.withValues(
@@ -81,8 +80,7 @@ class PromoCard extends StatelessWidget {
                       promo.description ?? '',
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 20,
+                      style: context.text.titleLarge?.copyWith(
                         height: 1.2,
                         fontWeight: FontWeight.w700,
                         color: context.colorScheme.onPrimary,
@@ -108,7 +106,9 @@ class PromoCard extends StatelessWidget {
                     ),
                     child: Text(
                       context.t.home.shopNow,
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      style: context.text.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],

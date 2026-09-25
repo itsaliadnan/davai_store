@@ -86,8 +86,7 @@ class _BentoTile extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 11,
+              style: context.text.labelSmall?.copyWith(
                 fontWeight: FontWeight.w800,
                 color: dark
                     ? colors.onInverseSurface

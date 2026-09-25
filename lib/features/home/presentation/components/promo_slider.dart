@@ -1,3 +1,4 @@
+import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/features/home/presentation/components/promo_card.dart';
 import 'package:davai_store/features/home/presentation/components/promo_indicator.dart';
 import 'package:davai_store/features/home/data/provider/promo_provider.dart';
@@ -37,7 +38,14 @@ class _PromoSliderState extends ConsumerState<PromoSlider> {
 
       error: (e, _) => SizedBox(
         height: 200,
-        child: Center(child: Text(context.t.erorrs.noProductsFound)),
+        child: Center(
+          child: Text(
+            context.t.erorrs.noProductsFound,
+            style: context.text.bodyMedium?.copyWith(
+              color: context.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
       ),
 
       data: (promos) {

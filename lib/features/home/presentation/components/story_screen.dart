@@ -74,7 +74,9 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
         body: Center(
           child: Text(
             context.t.home.noImagesToDisplay,
-            style: TextStyle(color: context.colorScheme.onPrimary),
+            style: context.text.bodyMedium?.copyWith(
+              color: context.colorScheme.onPrimary,
+            ),
           ),
         ),
       );
@@ -103,7 +105,7 @@ class _StoryViewerScreenState extends State<StoryViewerScreen>
                 widget.images[_currentIndex],
                 key: ValueKey(_currentIndex),
                 fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) => Center(
+                errorBuilder: (_, _, _) => Center(
                   child: Icon(
                     Icons.broken_image_outlined,
                     color: context.colorScheme.surfaceDim,
