@@ -233,6 +233,8 @@ class _Translations$profile$ar implements Translations$profile$en {
 	@override String get save => 'حفظ';
 	@override String get chooseLanguage => 'اختر اللغة';
 	@override String get search => 'البحث';
+	@override String get deliveryZones => 'مناطق التوصيل';
+	@override String get selectZone => 'اختر منطقتك';
 }
 
 // Path: changePassword
@@ -308,6 +310,17 @@ class _Translations$products$ar implements Translations$products$en {
 	@override String get noFavoritesYet => 'لا توجد منتجات مفضلة حتى الآن';
 	@override String get favorites => 'المفضلة';
 	@override String get products => 'المنتجات';
+	@override String get items => 'منتجات';
+	@override String get subtotal => 'المجموع الفرعي';
+	@override String get delivery => 'التوصيل';
+	@override String get total => 'الإجمالي';
+	@override String get checkout => 'إتمام الشراء';
+	@override String get emptyCart => 'سلتك فارغة';
+	@override String get startShopping => 'ابدأ التسوق';
+	@override String get clearCartTitle => 'إفراغ السلة؟';
+	@override String get clearCartMessage => 'سيتم حذف كل المنتجات من السلة.';
+	@override String get cancel => 'إلغاء';
+	@override String get confirm => 'تأكيد';
 }
 
 // Path: category
@@ -462,6 +475,8 @@ extension on TranslationsAr {
 			'profile.save' => 'حفظ',
 			'profile.chooseLanguage' => 'اختر اللغة',
 			'profile.search' => 'البحث',
+			'profile.deliveryZones' => 'مناطق التوصيل',
+			'profile.selectZone' => 'اختر منطقتك',
 			'changePassword.changePassword' => 'تغيير كلمة المرور',
 			'changePassword.forgotPassword' => 'نسيت كلمة المرور',
 			'changePassword.currentPassword' => 'كلمة المرور الحالية',
@@ -501,6 +516,17 @@ extension on TranslationsAr {
 			'products.noFavoritesYet' => 'لا توجد منتجات مفضلة حتى الآن',
 			'products.favorites' => 'المفضلة',
 			'products.products' => 'المنتجات',
+			'products.items' => 'منتجات',
+			'products.subtotal' => 'المجموع الفرعي',
+			'products.delivery' => 'التوصيل',
+			'products.total' => 'الإجمالي',
+			'products.checkout' => 'إتمام الشراء',
+			'products.emptyCart' => 'سلتك فارغة',
+			'products.startShopping' => 'ابدأ التسوق',
+			'products.clearCartTitle' => 'إفراغ السلة؟',
+			'products.clearCartMessage' => 'سيتم حذف كل المنتجات من السلة.',
+			'products.cancel' => 'إلغاء',
+			'products.confirm' => 'تأكيد',
 			'category.browseBy' => 'تصفح حسب',
 			'category.category' => 'الفئة',
 			'category.noCategories' => ' لا يوجد فئات',

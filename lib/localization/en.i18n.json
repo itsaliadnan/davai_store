@@ -145,7 +145,10 @@
         "cancel" : "Cancel",
         "save" : "Save",
         "chooseLanguage" : "Choose Language",
-        "search" : "Search"
+        "search" : "Search",
+        "deliveryZones" : "Delivery Zones",
+        "selectZone": "Select your zone"
+
         },
     "changePassword": {
         "changePassword": "Change Password",
@@ -180,24 +183,35 @@
 
     },
     "products": {
-       "addToCart" : "Add to cart",
-       "newest" : " Newest",
-       "priceLowtoHigh" : "Price: Low to High",
-       "priceHightoLow" : "Price: High to Low",
-       "mostPopular" : "Most Popular",
-       "sortBy" : "Sort by",
-       "noProducts" : "No products" ,
-       "allProducts" : "All Products",
-       "description" : "Description",
-       "noDescriptionAvailable" : "No description available.",
-         "hide": "Hide",
-  "readMore": "Read more" ,
-  "quantity" : "Quantity",
-  "cart" : "Cart",
-  "noFavoritesYet" : "No favorites yet",
-  "favorites" : "Favorites",
-  "products" : "Products" 
- 
+        "addToCart" : "Add to cart",
+        "newest" : " Newest",
+        "priceLowtoHigh" : "Price: Low to High",
+        "priceHightoLow" : "Price: High to Low",
+        "mostPopular" : "Most Popular",
+        "sortBy" : "Sort by",
+        "noProducts" : "No products" ,
+        "allProducts" : "All Products",
+        "description" : "Description",
+        "noDescriptionAvailable" : "No description available.",
+        "hide": "Hide",
+        "readMore": "Read more" ,
+        "quantity" : "Quantity",
+        "cart" : "Cart",
+        "noFavoritesYet" : "No favorites yet",
+        "favorites" : "Favorites",
+        "products" : "Products" ,
+        "items": "items",
+        "subtotal": "Subtotal",
+        "delivery": "Delivery",
+        "total": "Total",
+        "checkout": "Checkout",
+        "emptyCart": "Your cart is empty",
+        "startShopping": "Start Shopping",
+        "clearCartTitle": "Clear Cart?",
+        "clearCartMessage": "All items will be removed from your cart.",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+
     },
     "category" : {
         "browseBy" : "Browse by",

@@ -498,6 +498,12 @@ class Translations$profile$en {
 
 	/// en: 'Search'
 	String get search => 'Search';
+
+	/// en: 'Delivery Zones'
+	String get deliveryZones => 'Delivery Zones';
+
+	/// en: 'Select your zone'
+	String get selectZone => 'Select your zone';
 }
 
 // Path: changePassword
@@ -651,6 +657,39 @@ class Translations$products$en {
 
 	/// en: 'Products'
 	String get products => 'Products';
+
+	/// en: 'items'
+	String get items => 'items';
+
+	/// en: 'Subtotal'
+	String get subtotal => 'Subtotal';
+
+	/// en: 'Delivery'
+	String get delivery => 'Delivery';
+
+	/// en: 'Total'
+	String get total => 'Total';
+
+	/// en: 'Checkout'
+	String get checkout => 'Checkout';
+
+	/// en: 'Your cart is empty'
+	String get emptyCart => 'Your cart is empty';
+
+	/// en: 'Start Shopping'
+	String get startShopping => 'Start Shopping';
+
+	/// en: 'Clear Cart?'
+	String get clearCartTitle => 'Clear Cart?';
+
+	/// en: 'All items will be removed from your cart.'
+	String get clearCartMessage => 'All items will be removed from your cart.';
+
+	/// en: 'Cancel'
+	String get cancel => 'Cancel';
+
+	/// en: 'Confirm'
+	String get confirm => 'Confirm';
 }
 
 // Path: category
@@ -813,6 +852,8 @@ extension on Translations {
 			'profile.save' => 'Save',
 			'profile.chooseLanguage' => 'Choose Language',
 			'profile.search' => 'Search',
+			'profile.deliveryZones' => 'Delivery Zones',
+			'profile.selectZone' => 'Select your zone',
 			'changePassword.changePassword' => 'Change Password',
 			'changePassword.forgotPassword' => 'Forgot Password',
 			'changePassword.currentPassword' => 'Current Password',
@@ -852,6 +893,17 @@ extension on Translations {
 			'products.noFavoritesYet' => 'No favorites yet',
 			'products.favorites' => 'Favorites',
 			'products.products' => 'Products',
+			'products.items' => 'items',
+			'products.subtotal' => 'Subtotal',
+			'products.delivery' => 'Delivery',
+			'products.total' => 'Total',
+			'products.checkout' => 'Checkout',
+			'products.emptyCart' => 'Your cart is empty',
+			'products.startShopping' => 'Start Shopping',
+			'products.clearCartTitle' => 'Clear Cart?',
+			'products.clearCartMessage' => 'All items will be removed from your cart.',
+			'products.cancel' => 'Cancel',
+			'products.confirm' => 'Confirm',
 			'category.browseBy' => 'Browse by',
 			'category.category' => 'Category',
 			'category.noCategories' => 'No categories',

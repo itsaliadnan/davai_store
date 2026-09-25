@@ -150,7 +150,11 @@
         "cancel" : "إلغاء",
         "save" : "حفظ",
         "chooseLanguage" : "اختر اللغة",
-        "search" : "البحث"
+        "search" : "البحث",
+        "deliveryZones" : "مناطق التوصيل",
+          "selectZone": "اختر منطقتك"
+
+
 
 
 
@@ -205,7 +209,18 @@
         "cart" : " السلة",
         "noFavoritesYet" : "لا توجد منتجات مفضلة حتى الآن",
         "favorites" : "المفضلة",
-        "products" : "المنتجات" 
+        "products" : "المنتجات" ,
+        "items": "منتجات",
+        "subtotal": "المجموع الفرعي",
+        "delivery": "التوصيل",
+        "total": "الإجمالي",
+        "checkout": "إتمام الشراء",
+        "emptyCart": "سلتك فارغة",
+        "startShopping": "ابدأ التسوق",
+        "clearCartTitle": "إفراغ السلة؟",
+        "clearCartMessage": "سيتم حذف كل المنتجات من السلة.",
+        "cancel": "إلغاء",
+        "confirm": "تأكيد"
 
     },
         "category" : {
