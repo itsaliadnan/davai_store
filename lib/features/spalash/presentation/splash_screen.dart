@@ -105,7 +105,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Image.asset(
                       _logoAsset,
                       width: 160,
-                      errorBuilder: (_, __, ___) => Container(
+                      errorBuilder: (_, _, _) => Container(
                         width: 160,
                         height: 160,
                         decoration: BoxDecoration(
@@ -115,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen>
                         child: Center(
                           child: Text(
                             'Davai',
-                            style: TextStyle(
+                            style: context.text.titleLarge?.copyWith(
                               color: context.colorScheme.onPrimary,
                               fontWeight: FontWeight.w800,
                               fontSize: 20,
@@ -169,7 +169,7 @@ class _SplashScreenState extends State<SplashScreen>
                 opacity: _textOpacity,
                 child: Text(
                   'Davai Store',
-                  style: TextStyle(
+                  style: context.text.titleLarge?.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                     letterSpacing: -0.3,

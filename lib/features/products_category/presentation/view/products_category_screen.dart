@@ -91,7 +91,14 @@ class ProductsCategoryScreen extends ConsumerWidget {
                 child: categoriesAsync.when(
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
-                  error: (e, _) => Center(child: Text('حدث خطأ: $e')),
+                  error: (e, _) => Center(
+                    child: Text(
+                      'حدث خطأ: $e',
+                      style: context.text.bodyMedium?.copyWith(
+                        color: colors.error,
+                      ),
+                    ),
+                  ),
                   data: (categories) {
                     if (categories.isEmpty) {
                       return Center(

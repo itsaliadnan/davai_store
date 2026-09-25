@@ -20,6 +20,12 @@ class LuxeBottomNavBar extends ConsumerWidget {
     required this.currentIndex,
     required this.onTap,
   });
+  static const double floatingGap = 16;
+  static const double _tileHeight = 54;
+  static const double _verticalPadding = 20;
+
+  static const double totalHeight =
+      floatingGap + _tileHeight + _verticalPadding;
 
   static const List<LuxeNavItem> _items = [
     LuxeNavItem(icon: Icons.home_outlined, iconFilled: Icons.home_rounded),
@@ -212,7 +218,7 @@ class _Badge extends StatelessWidget {
       child: Text(
         count > 99 ? '99+' : '$count',
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: context.text.labelSmall?.copyWith(
           fontSize: 8,
           fontWeight: FontWeight.w700,
           color: context.colorScheme.onPrimary,

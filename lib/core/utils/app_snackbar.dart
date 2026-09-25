@@ -77,6 +77,10 @@ class AppSnackBar {
 
     if (messenger == null) return;
 
+    final onColor = backgroundColor.computeLuminance() > 0.5
+        ? Colors.black87
+        : Colors.white;
+
     messenger
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -92,24 +96,15 @@ class AppSnackBar {
           ),
           content: Row(
             children: [
-              Icon(
-                icon,
-                color: backgroundColor.computeLuminance() > 0.5
-                    ? Colors.black87
-                    : Colors.white,
-                size: 24,
-              ),
+              Icon(icon, color: onColor, size: 24),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   message,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: backgroundColor.computeLuminance() > 0.5
-                        ? Colors.black87
-                        : Colors.white,
-                    fontSize: 14,
+                  style: context.text.bodyMedium?.copyWith(
+                    color: onColor,
                     fontWeight: FontWeight.w600,
                     height: 1.3,
                   ),
