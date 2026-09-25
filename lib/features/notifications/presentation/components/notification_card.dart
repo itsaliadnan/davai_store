@@ -60,8 +60,8 @@ class NotificationCard extends StatelessWidget {
 
     return Material(
       color: notification.isRead
-          ? colorScheme.surface
-          : colorScheme.primary.withValues(alpha: 0.06),
+          ? colorScheme.surfaceContainerHighest
+          : colorScheme.surfaceContainerHighest.withValues(alpha: 0.06),
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,
