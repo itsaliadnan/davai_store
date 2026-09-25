@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
-import 'package:davai_store/features/search/presentation/provider/search_provider.dart';
+import 'package:davai_store/features/search/data/provider/search_provider.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

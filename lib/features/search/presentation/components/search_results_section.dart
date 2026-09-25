@@ -1,6 +1,6 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/core/theme/spacing.dart';
-import 'package:davai_store/features/search/presentation/provider/search_provider.dart';
+import 'package:davai_store/features/search/data/provider/search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +24,12 @@ class SearchResultsSection extends ConsumerWidget {
       error: (err, _) => Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
         child: Center(
-          child: Text('حدث خطأ أثناء البحث', style: context.text.bodyMedium),
+          child: Text(
+            'حدث خطأ أثناء البحث',
+            style: context.text.bodyMedium?.copyWith(
+              color: context.colorScheme.error,
+            ),
+          ),
         ),
       ),
       data: (products) {
@@ -32,7 +37,12 @@ class SearchResultsSection extends ConsumerWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
             child: Center(
-              child: Text('لا توجد نتائج', style: context.text.bodyMedium),
+              child: Text(
+                'لا توجد نتائج',
+                style: context.text.bodyMedium?.copyWith(
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
+              ),
             ),
           );
         }
@@ -60,6 +70,10 @@ class SearchResultsSection extends ConsumerWidget {
                         ? Image.network(product.image, fit: BoxFit.cover)
                         : Container(
                             color: context.colorScheme.surfaceContainer,
+                            child: Icon(
+                              Icons.image_not_supported_outlined,
+                              color: context.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                   ),
                   Padding(
@@ -76,7 +90,10 @@ class SearchResultsSection extends ConsumerWidget {
                         const SizedBox(height: AppSpacing.xs),
                         Text(
                           '${product.price} د.ع',
-                          style: context.text.labelMedium,
+                          style: context.text.labelMedium?.copyWith(
+                            color: context.colorScheme.error,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ],
                     ),

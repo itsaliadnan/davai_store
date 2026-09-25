@@ -3,7 +3,7 @@ import 'package:davai_store/core/theme/spacing.dart';
 import 'package:davai_store/features/home/presentation/components/search_bar.dart';
 import 'package:davai_store/features/search/presentation/components/search_results_section.dart';
 import 'package:davai_store/features/search/presentation/components/sorted_button.dart';
-import 'package:davai_store/features/search/presentation/provider/search_provider.dart';
+import 'package:davai_store/features/search/data/provider/search_provider.dart';
 import 'package:davai_store/localization/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
