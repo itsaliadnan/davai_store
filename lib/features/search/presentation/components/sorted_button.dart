@@ -24,19 +24,31 @@ class SortByButton extends StatelessWidget {
         itemBuilder: (context) => [
           PopupMenuItem(
             value: 'newest',
-            child: Text(context.t.products.newest),
+            child: Text(
+              context.t.products.newest,
+              style: context.text.bodyMedium,
+            ),
           ),
           PopupMenuItem(
             value: 'price_low',
-            child: Text(context.t.products.priceLowtoHigh),
+            child: Text(
+              context.t.products.priceLowtoHigh,
+              style: context.text.bodyMedium,
+            ),
           ),
           PopupMenuItem(
             value: 'price_high',
-            child: Text(context.t.products.priceHightoLow),
+            child: Text(
+              context.t.products.priceHightoLow,
+              style: context.text.bodyMedium,
+            ),
           ),
           PopupMenuItem(
             value: 'popular',
-            child: Text(context.t.products.mostPopular),
+            child: Text(
+              context.t.products.mostPopular,
+              style: context.text.bodyMedium,
+            ),
           ),
         ],
         child: Row(

@@ -46,14 +46,19 @@ class ProductCard extends ConsumerWidget {
                     child: Container(
                       width: double.infinity,
                       color: context.colorScheme.surfaceContainer,
-                      child: product.image != null && product.image!.isNotEmpty
+                      child: product.image.isNotEmpty
                           ? Image.network(
-                              product.image!,
+                              product.image,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) =>
-                                  const Icon(Icons.broken_image),
+                              errorBuilder: (_, _, _) => Icon(
+                                Icons.broken_image,
+                                color: context.colorScheme.onSurfaceVariant,
+                              ),
                             )
-                          : const Icon(Icons.image),
+                          : Icon(
+                              Icons.image,
+                              color: context.colorScheme.onSurfaceVariant,
+                            ),
                     ),
                   ),
 
@@ -97,8 +102,7 @@ class ProductCard extends ConsumerWidget {
                         ),
                         child: Text(
                           'خصم $discountPercent٪',
-                          style: TextStyle(
-                            fontSize: 10,
+                          style: context.text.labelSmall?.copyWith(
                             fontWeight: FontWeight.w500,
                             color: context.colorScheme.onPrimary,
                           ),
@@ -117,9 +121,8 @@ class ProductCard extends ConsumerWidget {
                       product.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: context.text.titleMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        fontSize: 19,
                         height: 1.2,
                         color: context.colorScheme.onSurface,
                       ),
@@ -131,7 +134,7 @@ class ProductCard extends ConsumerWidget {
                       children: [
                         Text(
                           "\$${product.price}",
-                          style: TextStyle(
+                          style: context.text.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
                             color: context.colorScheme.error,
@@ -152,6 +155,12 @@ class ProductCard extends ConsumerWidget {
                                     SnackBar(
                                       content: Text(
                                         context.t.products.addToCart,
+                                        style: context.text.bodyMedium
+                                            ?.copyWith(
+                                              color: context
+                                                  .colorScheme
+                                                  .onInverseSurface,
+                                            ),
                                       ),
                                       behavior: SnackBarBehavior.floating,
                                     ),

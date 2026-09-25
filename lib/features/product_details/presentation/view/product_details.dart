@@ -75,10 +75,10 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
                   // RATING
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.star_rounded,
                         size: 16,
-                        color: Colors.amber,
+                        color: context.warning,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -186,7 +186,7 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: product.stock > 0
-                              ? Colors.green
+                              ? context.success
                               : colors.error,
                         ),
                       ),
@@ -197,7 +197,7 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
                             : 'Out of stock',
                         style: text.bodyMedium?.copyWith(
                           color: product.stock > 0
-                              ? Colors.green
+                              ? context.success
                               : colors.error,
                           fontWeight: FontWeight.w600,
                         ),
@@ -257,12 +257,17 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
                             for (int i = 0; i < quantity; i++) {
                               ref
                                   .read(cartProvider.notifier)
-                                  .addItem(product, Colors.red);
+                                  .addItem(product, colors.error);
                             }
 
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(context.t.products.addToCart),
+                                content: Text(
+                                  context.t.products.addToCart,
+                                  style: text.bodyMedium?.copyWith(
+                                    color: colors.onInverseSurface,
+                                  ),
+                                ),
                                 behavior: SnackBarBehavior.floating,
                               ),
                             );
@@ -282,7 +287,10 @@ class _ProductDetailsState extends ConsumerState<ProductDetails> {
                         const SizedBox(width: 8),
                         Text(
                           'Add to Cart — \$${(product.price * quantity).toStringAsFixed(2)}',
-                          style: const TextStyle(fontWeight: FontWeight.w700),
+                          style: text.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: colors.onInverseSurface,
+                          ),
                         ),
                       ],
                     ),

@@ -1,7 +1,7 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
 import 'package:davai_store/features/products/data/model/product_model.dart';
 import 'package:davai_store/features/product_details/presentation/components/product_slider_card.dart';
-import 'package:davai_store/features/product_details/presentation/controller/product_slider.controller.dart';
+import 'package:davai_store/features/product_details/data/controller/product_slider.controller.dart';
 import 'package:flutter/material.dart';
 
 class ProductSlider extends StatefulWidget {
@@ -92,7 +92,7 @@ class _ProductSliderState extends State<ProductSlider> {
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: images.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  separatorBuilder: (_, _) => const SizedBox(width: 8),
                   itemBuilder: (context, index) {
                     final active = index == currentIndex;
 

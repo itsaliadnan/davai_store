@@ -19,7 +19,7 @@ class ProductSliderCard extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
 
-        errorBuilder: (_, __, ___) {
+        errorBuilder: (_, _, _) {
           return Icon(
             Icons.broken_image_outlined,
             size: 60,

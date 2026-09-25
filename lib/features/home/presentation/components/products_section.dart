@@ -24,7 +24,7 @@ class ProductsSection extends ConsumerWidget {
               Expanded(
                 child: Text(
                   context.t.home.newArrivals,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  style: context.text.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.2,
                   ),
@@ -42,9 +42,10 @@ class ProductsSection extends ConsumerWidget {
                 ),
                 child: Text(
                   context.t.home.showAll,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+                  style: context.text.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: context.colorScheme.primary,
+                  ),
                 ),
               ),
             ],
@@ -57,7 +58,14 @@ class ProductsSection extends ConsumerWidget {
         productsAsync.when(
           data: (products) {
             if (products.isEmpty) {
-              return Center(child: Text(context.t.erorrs.noProductsFound));
+              return Center(
+                child: Text(
+                  context.t.erorrs.noProductsFound,
+                  style: context.text.bodyMedium?.copyWith(
+                    color: context.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              );
             }
 
             return GridView.builder(
@@ -90,10 +98,21 @@ class ProductsSection extends ConsumerWidget {
               children: [
                 Icon(Icons.error, color: context.colorScheme.error),
                 const SizedBox(height: 8),
-                Text('حدث خطأ: ${e.toString()}'),
+                Text(
+                  'حدث خطأ: ${e.toString()}',
+                  style: context.text.bodyMedium?.copyWith(
+                    color: context.colorScheme.error,
+                  ),
+                ),
                 TextButton(
                   onPressed: () => ref.refresh(productProvider),
-                  child: Text(context.t.erorrs.tryAgain),
+                  child: Text(
+                    context.t.erorrs.tryAgain,
+                    style: context.text.bodyMedium?.copyWith(
+                      color: context.colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ],
             ),
