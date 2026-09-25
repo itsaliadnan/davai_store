@@ -1,6 +1,6 @@
 import 'package:davai_store/core/extentions/theme_extentions.dart';
-import 'package:davai_store/features/cart/data/model/cart_items_model.dart';
 import 'package:davai_store/core/theme/spacing.dart';
+import 'package:davai_store/features/cart/data/model/cart_items_model.dart';
 import 'package:flutter/material.dart';
 
 class ItemCard extends StatelessWidget {
@@ -21,138 +21,143 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = item.product;
 
-    return Stack(
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Row(
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: context.colorScheme.surfaceContainer,
+        borderRadius: BorderRadius.circular(AppSpacing.lg),
+        border: Border.all(color: context.colorScheme.outlineVariant),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppSpacing.md),
+            child: Container(
+              height: 68,
+              width: 68,
+              color: context.colorScheme.surfaceContainerHighest,
+              child: product.image.isEmpty
+                  ? Icon(
+                      Icons.image_not_supported,
+                      color: context.colorScheme.onSurfaceVariant,
+                    )
+                  : Image.network(
+                      product.image,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(
+                          Icons.image_not_supported,
+                          color: context.colorScheme.onSurfaceVariant,
+                        );
+                      },
+                    ),
+            ),
+          ),
+
+          const SizedBox(width: AppSpacing.md),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 80,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.inversePrimary,
-                    borderRadius: BorderRadius.circular(AppSpacing.md),
-                  ),
-                  child: product.image == null || product.image!.isEmpty
-                      ? const Icon(Icons.image_not_supported)
-                      : Image.network(
-                          product.image!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(Icons.image_not_supported);
-                          },
-                        ),
-                ),
-
-                const SizedBox(width: AppSpacing.lg),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
                         product.title,
-                        style: const TextStyle(
-                          fontSize: AppSpacing.lg,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.text.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-
-                      const SizedBox(height: AppSpacing.sm),
-
-                      Container(
-                        height: 20,
-                        width: 20,
-                        decoration: BoxDecoration(
-                          color: item.selectedColor,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: context.colorScheme.outline,
-                          ),
-                        ),
+                    ),
+                    GestureDetector(
+                      onTap: onDelete,
+                      child: Icon(
+                        Icons.close,
+                        size: 16,
+                        color: context.colorScheme.onSurfaceVariant,
                       ),
+                    ),
+                  ],
+                ),
 
-                      const SizedBox(height: 6),
+                const SizedBox(height: AppSpacing.xs),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Container(
+                  height: 16,
+                  width: 16,
+                  decoration: BoxDecoration(
+                    color: item.selectedColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: context.colorScheme.outline),
+                  ),
+                ),
+
+                const SizedBox(height: AppSpacing.sm),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: context.colorScheme.outlineVariant,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            '\$${product.price}',
-                            style: TextStyle(
-                              fontSize: AppSpacing.lg,
-                              color: context.colorScheme.primary,
-                              fontWeight: FontWeight.w600,
+                          InkWell(
+                            onTap: onDecrease,
+                            child: const SizedBox(
+                              width: 24,
+                              height: 28,
+                              child: Icon(Icons.remove, size: 14),
                             ),
                           ),
-
-                          Container(
-                            padding: const EdgeInsets.all(AppSpacing.xs),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: context.colorScheme.outlineVariant,
-                              ),
-                              color: context.colorScheme.surfaceContainer,
-                              borderRadius: BorderRadius.circular(
-                                AppSpacing.sm,
+                          SizedBox(
+                            width: 18,
+                            child: Text(
+                              '${item.quantity}',
+                              textAlign: TextAlign.center,
+                              style: context.text.bodySmall?.copyWith(
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                InkWell(
-                                  onTap: onDecrease,
-                                  child: const SizedBox(
-                                    width: 28,
-                                    height: 28,
-                                    child: Icon(Icons.remove),
-                                  ),
-                                ),
-
-                                const SizedBox(width: AppSpacing.sm),
-
-                                Text(
-                                  '${item.quantity}',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-
-                                const SizedBox(width: AppSpacing.sm),
-
-                                InkWell(
-                                  onTap: onIncrease,
-                                  child: const SizedBox(
-                                    width: 28,
-                                    height: 28,
-                                    child: Icon(Icons.add),
-                                  ),
-                                ),
-                              ],
+                          ),
+                          InkWell(
+                            onTap: onIncrease,
+                            child: const SizedBox(
+                              width: 24,
+                              height: 28,
+                              child: Icon(Icons.add, size: 14),
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+
+                    Text(
+                      '\$${(product.price * item.quantity).toStringAsFixed(2)}',
+                      style: context.text.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-        ),
-
-        Positioned(
-          top: 6,
-          right: 6,
-          child: GestureDetector(
-            onTap: onDelete,
-            child: const Icon(Icons.close, size: 16),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

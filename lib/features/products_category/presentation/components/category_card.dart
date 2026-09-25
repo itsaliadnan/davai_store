@@ -40,7 +40,7 @@ class CategoryCard extends StatelessWidget {
                     ? Image.network(
                         imageUrl,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Center(
+                        errorBuilder: (_, _, _) => Center(
                           child: Icon(
                             icon,
                             size: large ? 36 : 26,
@@ -90,7 +90,7 @@ class CategoryCard extends StatelessWidget {
                     ),
                     child: Text(
                       badgeLabel!,
-                      style: TextStyle(
+                      style: context.text.labelSmall?.copyWith(
                         fontSize: 8,
                         fontWeight: FontWeight.w700,
                         color: colors.onSurface,
@@ -107,7 +107,7 @@ class CategoryCard extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: TextStyle(
+                      style: context.text.labelLarge?.copyWith(
                         fontSize: large ? 14 : 11,
                         fontWeight: FontWeight.w800,
                         color: context.colorScheme.onPrimary,
@@ -116,7 +116,7 @@ class CategoryCard extends StatelessWidget {
                     const SizedBox(height: 1),
                     Text(
                       '$itemCount منتج',
-                      style: TextStyle(
+                      style: context.text.labelSmall?.copyWith(
                         fontSize: large ? 9 : 8,
                         color: context.colorScheme.onPrimary.withValues(
                           alpha: 0.75,

@@ -26,9 +26,13 @@ class CartController extends StateNotifier<List<CartItem>> {
       return;
     }
 
-    item.quantity++;
-
-    state = [...state];
+    state = [
+      for (int i = 0; i < state.length; i++)
+        if (i == index)
+          item.copyWith(quantity: item.quantity + 1)
+        else
+          state[i],
+    ];
   }
 
   void decreaseQuantity(int index) {
@@ -38,9 +42,13 @@ class CartController extends StateNotifier<List<CartItem>> {
       return;
     }
 
-    item.quantity--;
-
-    state = [...state];
+    state = [
+      for (int i = 0; i < state.length; i++)
+        if (i == index)
+          item.copyWith(quantity: item.quantity - 1)
+        else
+          state[i],
+    ];
   }
 
   void removeItem(CartItem item) {
